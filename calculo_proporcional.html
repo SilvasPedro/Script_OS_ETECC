@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Proporcional</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icon/favicon.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="index.html">Script Abertura</a></li>
+                <li><a href="encerramento.html">Script Encerramento</a></li>
+                <li><a href="os_geral.html">O.S Geral</a></li>
+                <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
+                <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
+                <li><a href="calculo_proporcional.html">Cálculo de Proporcional</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>Cálculo de Proporcional</h1>
+            <div class="form">
+                <label for="plano_atual">Plano Atual do Cliente:</label>
+                <select id="plano_atual">
+                    <option value="100">100 Mbps</option>
+                    <option value="600">600 Mbps</option>
+                    <option value="800">800 Mbps</option>
+                    <option value="1000">1000 Mbps</option>
+                </select>
+
+                <label for="novo_plano">Novo Plano do Cliente:</label>
+                <select id="novo_plano">
+                    <option value="100">100 Mbps</option>
+                    <option value="600">600 Mbps</option>
+                    <option value="800">800 Mbps</option>
+                    <option value="1000">1000 Mbps</option>
+                </select>
+
+                <label for="vencimento">Próximo Vencimento:</label>
+                <input type="date" id="vencimento">
+
+                <div class="resultado">
+                    <h3>Resultado do Cálculo</h3>
+                    <p id="valor_por_dia"></p>
+                    <p id="diferenca_valor_dia"></p>
+                    <p id="dias_faltantes"></p>
+                    <p id="valor_proporcional"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="javascript/calculo_proporcional.js"></script>
+</body>
+</html>
