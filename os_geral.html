@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O.S Geral</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icon/favicon.png" type="image/png">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="index.html">Script Abertura</a></li>
+                <li><a href="encerramento.html">Script Encerramento</a></li>
+                <li><a href="os_geral.html">O.S Geral</a></li>
+                <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
+                <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>O.S Geral</h1>
+            <div class="form">
+                <label for="agendamento_data">Data de Agendamento:</label>
+                <input type="date" id="agendamento_data">
+
+                <label for="agendamento_periodo">Período:</label>
+                <select id="agendamento_periodo">
+                    <option value="Horário Comercial">Horário Comercial</option>
+                    <option value="primeira">Primeira do dia</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="ultima">Última do dia</option>
+                    <option value="apos">Após</option>
+                </select>
+
+                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário (Após):</label>
+                <input type="time" id="agendamento_horario" style="display: none;">
+                <br><br>
+                <fieldset>
+                    <legend>INFORMAÇÕES DO CLIENTE</legend>
+                    <label>Roteador:</label>
+                    <select id="roteador">
+                        <option value="comodato">Comodato</option>
+                        <option value="compra">Compra</option>
+                    </select>
+                    <label>ONU:</label>
+                    <select id="onu">
+                        <option value="comodato">Comodato</option>
+                        <option value="compra">Compra</option>
+                    </select>
+                    <label for="contato">Contato:</label>
+                    <input type="text" id="contato">
+                    <label for="cliente_desde">Cliente desde:</label>
+                    <input type="date" id="cliente_desde">
+                </fieldset>
+
+                <fieldset>
+                    <legend>DETALHES O.S</legend>
+                    <label for="solicitacao">Solicitação:</label>
+                    <textarea id="solicitacao"></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <legend>INFORMAÇÕES TÉCNICAS</legend>
+                    <label for="sinal">Sinal / Status ONU:</label>
+                    <input id="sinal"></input>
+                    <label for="quedas">Histórico de Quedas:</label>
+                    <textarea id="quedas"></textarea>
+                </fieldset>
+                <fieldset>
+                    <legend>ÚLTIMA O.S</legend>
+                    <label>Teve atendimento ou O.S de suporte recentemente?</label>
+                    <select id="atendimento">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <div id="campos-ultima-os">
+                        <label for="tipo_os">Tipo de O.S:</label>
+                        <input type="text" id="tipo_os">
+                        <label for="data_os">Data:</label>
+                        <input type="date" id="data_os">
+                        <label for="encerramento_os">Encerramento:</label>
+                        <textarea id="encerramento_os"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="buttons">
+                <button id="copiar">Copiar Script</button>
+                <button id="limpar">Limpar Formulário</button>
+            </div>
+            <div class="resultado">
+                <p id="texto-gerado"></p>
+            </div>
+        </main>
+    </div>
+    <script src="javascript/os_geral.js"></script>
+</body>
+
+</html>

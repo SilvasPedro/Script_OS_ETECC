@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O.S Ponto Adicional</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icon/favicon.png" type="image/png">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="index.html">Script Abertura</a></li>
+                <li><a href="encerramento.html">Script Encerramento</a></li>
+                <li><a href="os_geral.html">O.S Geral</a></li>
+                <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
+                <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>O.S Ponto Adicional</h1>
+            <div class="form">
+                <label for="agendamento_data">Data de Agendamento:</label>
+                <input type="date" id="agendamento_data">
+
+                <label for="agendamento_periodo">Período:</label>
+                <select id="agendamento_periodo">
+                    <option value="Horário Comercial">Horário Comercial</option>
+                    <option value="primeira">Primeira do dia</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="ultima">Última do dia</option>
+                    <option value="apos">Após</option>
+                </select>
+
+                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário (Após):</label>
+                <input type="time" id="agendamento_horario" style="display: none;">
+
+                <label for="solicitacao">Solicitação:</label>
+                <input type="text" id="solicitacao">
+                <br><br>
+                <fieldset>
+                    <legend>INFORMAÇÕES DO CLIENTE</legend>
+                    <label for="telefone">Tel.:</label>
+                    <input type="tel" id="telefone">
+                    <label for="plano">Plano:</label>
+                    <input type="text" id="plano">
+                    <label>Roteador:</label>
+                    <select id="roteador">
+                        <option value="comodato">Comodato</option>
+                        <option value="compra">Compra</option>
+                    </select>
+                    <label>ONU:</label>
+                    <select id="onu">
+                        <option value="comodato">Comodato</option>
+                        <option value="compra">Compra</option>
+                    </select>
+                    <label for="cliente_desde">Cliente desde:</label>
+                    <input type="date" id="cliente_desde">
+                </fieldset>
+
+                <fieldset>
+                    <legend>INFORMAÇÕES DA O.S</legend>
+                    <label>Cliente realizou upgrade?</label>
+                    <select id="upgrade">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <label>Roteador do ponto adicional:</label>
+                    <select id="roteador_adicional">
+                        <option value="comodato">Comodato</option>
+                        <option value="cliente">Do Cliente</option>
+                    </select>
+                    <label for="valor_taxa">Valor da taxa/proporcional: R$</label>
+                    <input type="number" id="valor_taxa">
+                    <label>Cliente ciente da taxa/proporcional?</label>
+                    <select id="ciente_taxa">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                    <label for="vencimento_taxa">Vencimento da taxa/proporcional:</label>
+                    <input type="date" id="vencimento_taxa">
+                </fieldset>
+            </div>
+            <div class="buttons">
+                <button id="copiar">Copiar Script</button>
+                <button id="limpar">Limpar Formulário</button>
+            </div>
+            <div class="resultado">
+                <p id="texto-gerado"></p>
+            </div>
+        </main>
+    </div>
+    <script src="javascript/os_ponto_adicional.js"></script>
+</body>
+
+</html>

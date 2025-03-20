@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width:device-width, initial-scale=1.0">
+    <title>Scripts</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icon/favicon.png" type="image/png">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="index.html">Script Abertura</a></li>
+                <li><a href="encerramento.html">Script Encerramento</a></li>
+                <li><a href="os_geral.html">O.S Geral</a></li>
+                <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
+                <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>Abertura de Atendimento</h1>
+            <div class="form">
+                <label for="nomeCliente">Nome do Cliente:</label>
+                <input type="text" id="nomeCliente" placeholder="Nome completo">
+
+                <label for="problema">Problema Relatado:</label>
+                <textarea id="problema"></textarea>
+
+                <label for="cpfCnpj">CPF/CNPJ:</label>
+                <div class="teste">
+                    <input type="text" id="cpfCnpj" placeholder="CPF ou CNPJ">
+                    <button id="copiarCpfCnpj">Copiar</button> 
+                </div>
+                <label for="telefone">Telefone para Contato:</label>
+                <input type="tel" id="telefone" placeholder="(11) 12345-6789">
+
+                <label for="operador">Operador:</label>
+                <input type="text" id="operador" placeholder="Nome do operador">
+            </div>
+            <div class="buttons">
+                <button id="copiar">Copiar Script</button>
+                <button id="limpar">Limpar Formulário</button>
+            </div>
+            <div class="resultado">
+                <p id="texto-gerado"></p>
+            </div>
+        </main>
+    </div>
+    <script src="javascript/script.js"></script>
+</body>
+
+</html>
