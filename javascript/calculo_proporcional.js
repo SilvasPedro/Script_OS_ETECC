@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const diffEmMs = vencimento.getTime() - hoje.getTime();
         const diffEmDias = Math.ceil(diffEmMs / (1000 * 3600 * 24));
 
-        const proporcional = diferencaValorDiaPlanos * diffEmDias -1;
+        const proporcional = diferencaValorDiaPlanos * diffEmDias;
 
         valorPorDia.textContent = `Valor por dia do plano atual: R$ ${valorDiaPlanoAtual.toFixed(2)}`;
         diferencaValorDia.textContent = `Diferença de valor por dia: R$ ${diferencaValorDiaPlanos.toFixed(2)}`;
-        diasFaltantes.textContent = `Dias faltantes para o vencimento: ${diffEmDias - 1}`;
+        diasFaltantes.textContent = `Dias faltantes para o vencimento: ${diffEmDias}`;
         valorProporcional.textContent = `Valor proporcional a ser cobrado: R$ ${proporcional.toFixed(2)}`;
     }
 
