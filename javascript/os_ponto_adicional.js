@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const cienteTaxaInput = document.getElementById('ciente_taxa');
     const vencimentoTaxaInput = document.getElementById('vencimento_taxa');
 
+    // Novos campos
+    const avaliacaoTecnicaInput = document.getElementById('avaliacao_tecnica');
+    const baixaAvaliacaoInput = document.getElementById('baixa_avaliacao');
+    const labelBaixaAvaliacao = document.getElementById('label_baixa_avaliacao');
+
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
-
-    // Nova notificação
-    const notificacaoHorario = document.getElementById('notificacao-horario');
 
     // Função para formatar a data
     function formatarData(data) {
@@ -52,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const cienteTaxa = cienteTaxaInput.value.toUpperCase();
         const vencimentoTaxa = vencimentoTaxaInput.value;
 
+        // Novos campos
+        const avaliacaoTecnica = avaliacaoTecnicaInput.value.toUpperCase();
+        const baixaAvaliacao = baixaAvaliacaoInput.value;
+
         const agendamentoDataFormatada = formatarData(agendamentoData);
         const clienteDesdeFormatada = formatarData(clienteDesde);
 
@@ -63,20 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n` +
-                    `> SOLICITAÇÃO: ${solicitacao}\n\n` +
-                    `> INFORMAÇÕES DO CLIENTE <·\n\n` +
-                    `> TEL.: ${telefone}\n` +
-                    `> PLANO: ${plano}\n` +
-                    `> ROTEADOR: [${roteador}]\n` +
-                    `> ONU: [${onu}]\n` +
-                    `> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n` +
-                    `> INFORMAÇÕES DA O.S <·\n\n` +
-                    `> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n` +
-                    `> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n` +
-                    `> VALOR DA TAXA/PROPORCIONAL: R$ ${valorTaxa}\n\n` +
-                    `> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n` +
-                    `> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
+        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n> SOLICITAÇÃO: ${solicitacao}\n\n> INFORMAÇÕES DO CLIENTE <·\n\n> TEL.: ${telefone}\n> PLANO: ${plano}\n> ROTEADOR: [${roteador}]\n> ONU: [${onu}]\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n> INFORMAÇÕES DA O.S <·\n\n> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n> VALOR DA TAXA/PROPORCIONAL: R$ ${valorTaxa}\n\n> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
+
+        // Adiciona a baixa da avaliação se a avaliação técnica foi feita
+        if (avaliacaoTecnica === 'SIM') {
+            texto += `\n\n> AVALIAÇÃO TÉCNICA: [${avaliacaoTecnica}]\n> BAIXA DA AVALIAÇÃO: ${baixaAvaliacao}`;
+        } else {
+            texto += `\n\n> AVALIAÇÃO TÉCNICA: [${avaliacaoTecnica}]`;
+        }
 
         textoGerado.textContent = texto;
     }
@@ -106,14 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
-
-        // Mostra a notificação se for "última" ou "após", oculta caso contrário
-        if (this.value === 'ultima' || this.value === 'apos') {
-            notificacaoHorario.style.display = 'block';
-        } else {
-            notificacaoHorario.style.display = 'none';
-        }
-
         gerarTexto();
     });
 
@@ -126,6 +118,18 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', gerarTexto);
     });
 
-    // Chamada inicial para o campo de período
-    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+    // Event listener para o campo "Já foi feita avaliação técnica?"
+    avaliacaoTecnicaInput.addEventListener('change', function() {
+        if (this.value === 'sim') {
+            baixaAvaliacaoInput.style.display = 'block';
+            labelBaixaAvaliacao.style.display = 'block';
+        } else {
+            baixaAvaliacaoInput.style.display = 'none';
+            labelBaixaAvaliacao.style.display = 'none';
+        }
+        gerarTexto();
+    });
+
+    // Chamada inicial para definir o estado dos campos
+    avaliacaoTecnicaInput.dispatchEvent(new Event('change'));
 });
