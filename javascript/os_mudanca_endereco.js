@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
 
+    // Nova notificação
+    const notificacaoHorario = document.getElementById('notificacao-horario');
+
     // Função para formatar a data
     function formatarData(data) {
         if (!data) return '';
@@ -54,7 +57,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        textoGerado.textContent = `> PODE ADIANTAR? [${adiantar}]\n\n> SOLICITAÇÃO: MUDANÇA DE ENDEREÇO.\n> AGENDAMENTO: ${agendamentoCompleto}\n> TEL.: ${telefone}\n\n> ENDEREÇO ATUAL: ${enderecoAtual}\n> NOVO ENDEREÇO: ${novoEndereco}\n> REF. DO NOVO ENDEREÇO: ${refNovoEndereco}\n> LOCALIZAÇÃO MAPS: ${localizacaoMaps}\n\n> TAXA: ISENTO\n> CLIENTE CIENTE QUE TEM QUE LEVAR EQUIPAMENTOS ATÉ O NOVO LOCAL\n\n> COMPROVANTE DE ENDEREÇO: ${comprovanteEndereco}\n> CLIENTE TEM PONTO ADICIONAL: [${pontoAdicional}]`;
+        let texto = `> PODE ADIANTAR? [${adiantar}]\n\n` +
+                    `> SOLICITAÇÃO: MUDANÇA DE ENDEREÇO.\n` +
+                    `> AGENDAMENTO: ${agendamentoCompleto}\n` +
+                    `> TEL.: ${telefone}\n\n` +
+                    `> ENDEREÇO ATUAL: ${enderecoAtual}\n` +
+                    `> NOVO ENDEREÇO: ${novoEndereco}\n` +
+                    `> REF. DO NOVO ENDEREÇO: ${refNovoEndereco}\n` +
+                    `> LOCALIZAÇÃO MAPS: ${localizacaoMaps}\n\n` +
+                    `> TAXA: ISENTO\n` +
+                    `> CLIENTE CIENTE QUE TEM QUE LEVAR EQUIPAMENTOS ATÉ O NOVO LOCAL\n\n` +
+                    `> COMPROVANTE DE ENDEREÇO: ${comprovanteEndereco}\n` +
+                    `> CLIENTE TEM PONTO ADICIONAL: [${pontoAdicional}]`;
+
+        textoGerado.textContent = texto;
     }
 
     copiarButton.addEventListener('click', function() {
@@ -82,6 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
+
+        // Mostra a notificação se for "última" ou "após", oculta caso contrário
+        if (this.value === 'ultima' || this.value === 'apos') {
+            notificacaoHorario.style.display = 'block';
+        } else {
+            notificacaoHorario.style.display = 'none';
+        }
+
         gerarTexto();
     });
 
@@ -93,4 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('change', gerarTexto);
     });
+
+    // Chamada inicial para o campo de período
+    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
 });

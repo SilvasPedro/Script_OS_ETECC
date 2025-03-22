@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
 
+    // Nova notificação
+    const notificacaoHorario = document.getElementById('notificacao-horario');
+
     // Função para formatar a data
     function formatarData(data) {
         if (!data) return '';
@@ -60,7 +63,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        textoGerado.textContent = `> AGENDAMENTO: ${agendamentoCompleto}\n\n> SOLICITAÇÃO: ${solicitacao}\n\n> INFORMAÇÕES DO CLIENTE <·\n\n> TEL.: ${telefone}\n> PLANO: ${plano}\n> ROTEADOR: [${roteador}]\n> ONU: [${onu}]\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n> INFORMAÇÕES DA O.S <·\n\n> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n> VALOR DA TAXA/PROPORCIONAL: R$ ${valorTaxa}\n\n> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
+        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n` +
+                    `> SOLICITAÇÃO: ${solicitacao}\n\n` +
+                    `> INFORMAÇÕES DO CLIENTE <·\n\n` +
+                    `> TEL.: ${telefone}\n` +
+                    `> PLANO: ${plano}\n` +
+                    `> ROTEADOR: [${roteador}]\n` +
+                    `> ONU: [${onu}]\n` +
+                    `> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n` +
+                    `> INFORMAÇÕES DA O.S <·\n\n` +
+                    `> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n` +
+                    `> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n` +
+                    `> VALOR DA TAXA/PROPORCIONAL: R$ ${valorTaxa}\n\n` +
+                    `> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n` +
+                    `> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
+
+        textoGerado.textContent = texto;
     }
 
     copiarButton.addEventListener('click', function() {
@@ -88,6 +106,14 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
+
+        // Mostra a notificação se for "última" ou "após", oculta caso contrário
+        if (this.value === 'ultima' || this.value === 'apos') {
+            notificacaoHorario.style.display = 'block';
+        } else {
+            notificacaoHorario.style.display = 'none';
+        }
+
         gerarTexto();
     });
 
@@ -99,4 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('change', gerarTexto);
     });
+
+    // Chamada inicial para o campo de período
+    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
 });

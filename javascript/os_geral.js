@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Novo
     const camposUltimaOS = document.getElementById('campos-ultima-os');
 
+    // Nova notificação
+    const notificacaoHorario = document.getElementById('notificacao-horario');
+
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
@@ -101,6 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
+
+        // Mostra a notificação se for "última" ou "após", oculta caso contrário
+        if (this.value === 'ultima' || this.value === 'apos') {
+            notificacaoHorario.style.display = 'block';
+        } else {
+            notificacaoHorario.style.display = 'none';
+        }
+
         gerarTexto();
     });
 
@@ -125,4 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Chamada inicial para definir o estado dos campos
     atendimentoInput.dispatchEvent(new Event('change'));
+
+    // Chamada inicial para o campo de período
+    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
 });
