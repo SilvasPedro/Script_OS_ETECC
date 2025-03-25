@@ -41,18 +41,27 @@
                 <p id="notificacao-horario" style="display: none; color: red; font-size: 0.9em; margin-top: 5px;">
                     A última O.S deve ser iniciada no máximo até às 16h30.
                 </p>
-                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário (Após):</label>
+                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário
+                    (Após):</label>
                 <input type="time" id="agendamento_horario" style="display: none;">
 
                 <label for="solicitacao">Solicitação:</label>
-                <input type="text" id="solicitacao">
+                <textarea id="solicitacao"></textarea>
                 <br><br>
                 <fieldset>
                     <legend>INFORMAÇÕES DO CLIENTE</legend>
                     <label for="telefone">Tel.:</label>
                     <input type="tel" id="telefone">
-                    <label for="plano">Plano:</label>
-                    <input type="text" id="plano">
+                    <label for="plano">Plano atual:</label>
+                    <select id="plano">
+                        <option value="1 Mbps">1 Mbps</option>
+                        <option value="10 Mbps">10 Mbps</option>
+                        <option value="100 Mbps">100 Mbps</option>
+                        <option value="240 Mbps">240 Mbps</option>
+                        <option value="600 Mbps">600 Mbps</option>
+                        <option value="800 Mbps">800 Mbps</option>
+                        <option value="1000 Mbps">1000 Mbps</option>
+                    </select>
                     <label>Roteador:</label>
                     <select id="roteador">
                         <option value="comodato">Comodato</option>
@@ -81,6 +90,10 @@
                     </select>
                     <label for="valor_taxa">Valor da taxa/proporcional: R$</label>
                     <input type="number" id="valor_taxa">
+                    <label class="por-metro-label">
+                        <input type="checkbox" id="por_metro">
+                        <span>Por metro</span>
+                    </label>
                     <label>Cliente ciente da taxa/proporcional?</label>
                     <select id="ciente_taxa">
                         <option value="sim">Sim</option>
@@ -96,7 +109,8 @@
                         <option value="sim">Sim</option>
                         <option value="nao">Não</option>
                     </select>
-                    <label for="baixa_avaliacao" id="label_baixa_avaliacao" style="display: none;">Baixa da Avaliação:</label>
+                    <label for="baixa_avaliacao" id="label_baixa_avaliacao" style="display: none;">Baixa da
+                        Avaliação:</label>
                     <textarea id="baixa_avaliacao" style="display: none;"></textarea>
                 </fieldset>
             </div>

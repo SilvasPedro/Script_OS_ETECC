@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const problemaInput = document.getElementById('problema');
     const telefoneInput = document.getElementById('telefone');
     const operadorInput = document.getElementById('operador');
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Atualiza a formatação do CPF/CNPJ enquanto o usuário digita
-    cpfCnpjInput.addEventListener('input', function() {
+    cpfCnpjInput.addEventListener('input', function () {
         this.value = formatarCpfCnpj(this.value);
     });
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    copiarButton.addEventListener('click', function() {
+    copiarButton.addEventListener('click', function () {
         gerarTexto();
         const texto = textoGerado.textContent;
         navigator.clipboard.writeText(texto).then(() => {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    limparButton.addEventListener('click', function() {
+    limparButton.addEventListener('click', function () {
         problemaInput.value = '';
         telefoneInput.value = '';
         operadorInput.value = '';
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Event listener para o botão de copiar CPF/CNPJ
-    copiarCpfCnpjButton.addEventListener('click', function() {
+    copiarCpfCnpjButton.addEventListener('click', function () {
         const cpfCnpj = cpfCnpjInput.value;
         if (cpfCnpj) {
             navigator.clipboard.writeText(cpfCnpj).then(() => {

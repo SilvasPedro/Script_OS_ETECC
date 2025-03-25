@@ -40,27 +40,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const agendamentoData = agendamentoDataInput.value;
         const agendamentoPeriodo = agendamentoPeriodoInput.value;
         const agendamentoHorario = agendamentoHorarioInput.value;
-
+    
         const solicitacao = solicitacaoInput.value;
         const telefone = telefoneInput.value;
         const plano = planoInput.value;
         const roteador = roteadorInput.value.toUpperCase();
         const onu = onuInput.value.toUpperCase();
         const clienteDesde = clienteDesdeInput.value;
-
+    
         const upgrade = upgradeInput.value.toUpperCase();
         const roteadorAdicional = roteadorAdicionalInput.value.toUpperCase();
         const valorTaxa = valorTaxaInput.value;
         const cienteTaxa = cienteTaxaInput.value.toUpperCase();
         const vencimentoTaxa = vencimentoTaxaInput.value;
-
-        // Novos campos
-        const avaliacaoTecnica = avaliacaoTecnicaInput.value.toUpperCase();
-        const baixaAvaliacao = baixaAvaliacaoInput.value;
-
+    
+        const porMetro = document.getElementById('por_metro').checked; // Verifica se o checkbox está marcado
+    
         const agendamentoDataFormatada = formatarData(agendamentoData);
         const clienteDesdeFormatada = formatarData(clienteDesde);
-
+    
         let agendamentoCompleto = agendamentoDataFormatada;
         if (agendamentoPeriodo) {
             agendamentoCompleto += ' - ' + agendamentoPeriodo.charAt(0).toUpperCase() + agendamentoPeriodo.slice(1);
@@ -68,16 +66,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 agendamentoCompleto += ' (' + agendamentoHorario + ')';
             }
         }
-
-        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n> SOLICITAÇÃO: ${solicitacao}\n\n> INFORMAÇÕES DO CLIENTE <·\n\n> TEL.: ${telefone}\n> PLANO: ${plano}\n> ROTEADOR: [${roteador}]\n> ONU: [${onu}]\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n> INFORMAÇÕES DA O.S <·\n\n> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n> VALOR DA TAXA/PROPORCIONAL: R$ ${valorTaxa}\n\n> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
-
-        // Adiciona a baixa da avaliação se a avaliação técnica foi feita
-        if (avaliacaoTecnica === 'SIM') {
-            texto += `\n\n> AVALIAÇÃO TÉCNICA: [${avaliacaoTecnica}]\n> BAIXA DA AVALIAÇÃO: ${baixaAvaliacao}`;
-        } else {
-            texto += `\n\n> AVALIAÇÃO TÉCNICA: [${avaliacaoTecnica}]`;
+    
+        let valorTaxaFormatado = 'R$ ' + valorTaxa;
+        if (porMetro) {
+            valorTaxaFormatado = 'R$' + valorTaxa + '/metro'; // Formata o valor com "por metro"
         }
-
+    
+        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n` +
+                    `> SOLICITAÇÃO: ${solicitacao}\n\n` +
+                    `> INFORMAÇÕES DO CLIENTE <·\n\n` +
+                    `> TEL.: ${telefone}\n` +
+                    `> PLANO: ${plano}\n` +
+                    `> ROTEADOR: [${roteador}]\n` +
+                    `> ONU: [${onu}]\n` +
+                    `> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n` +
+                    `> INFORMAÇÕES DA O.S <·\n\n` +
+                    `> CLIENTE REALIZOU UPGRADE? [${upgrade}]\n` +
+                    `> ROTEADOR DO PONTO ADICIONAL: [${roteadorAdicional}]\n` +
+                    `> VALOR DA TAXA/PROPORCIONAL: ${valorTaxaFormatado}\n\n` + // Usa a variável formatada
+                    `> CLIENTE CIENTE DA TAXA/PROPORCIONAL? [${cienteTaxa}]\n` +
+                    `> VENCIMENTO DA TAXA/PROPORCIONAL: ${vencimentoTaxa}`;
+    
         textoGerado.textContent = texto;
     }
 

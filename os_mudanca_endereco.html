@@ -50,7 +50,8 @@
                 <p id="notificacao-horario" style="display: none; color: red; font-size: 0.9em; margin-top: 5px;">
                     A última O.S deve ser iniciada no máximo até às 16h30.
                 </p>
-                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário (Após):</label>
+                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário
+                    (Após):</label>
                 <input type="time" id="agendamento_horario" style="display: none;">
 
                 <label for="cliente_desde">Cliente desde:</label>
@@ -60,13 +61,13 @@
                 <input type="tel" id="telefone">
 
                 <label for="endereco_atual">Endereço Atual:</label>
-                <textarea id="endereco_atual"></textarea>
+                <input id="endereco_atual">
 
                 <label for="novo_endereco">Novo Endereço:</label>
-                <textarea id="novo_endereco"></textarea>
+                <input id="novo_endereco">
 
                 <label for="ref_novo_endereco">Ref. do Novo Endereço:</label>
-                <textarea id="ref_novo_endereco"></textarea>
+                <input id="ref_novo_endereco">
 
                 <label for="localizacao_maps">Localização Maps:</label>
                 <input type="url" id="localizacao_maps">
@@ -77,7 +78,11 @@
                 <!-- <label>Cliente ciente que tem que levar equipamentos até o novo local</label> -->
 
                 <label for="comprovante_endereco">Comprovante de Endereço:</label>
-                <input type="text" id="comprovante_endereco">
+                <select id="comprovante_endereco">
+                    <option value="Anexado">Anexado</option>
+                    <option value="Não possui">Não possui</option>
+                    <option value="Não enviado">Não enviado</option>
+                </select>
 
                 <label>Cliente tem ponto adicional?</label>
                 <select id="ponto_adicional">

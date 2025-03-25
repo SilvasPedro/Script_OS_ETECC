@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const agendamentoDataInput = document.getElementById('agendamento_data');
     const agendamentoPeriodoInput = document.getElementById('agendamento_periodo');
     const agendamentoHorarioInput = document.getElementById('agendamento_horario');
@@ -17,12 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const tipoOsInput = document.getElementById('tipo_os');
     const dataOsInput = document.getElementById('data_os');
     const encerramentoOsInput = document.getElementById('encerramento_os');
-
-    // Novo
-    const camposUltimaOS = document.getElementById('campos-ultima-os');
-
-    // Nova notificação
-    const notificacaoHorario = document.getElementById('notificacao-horario');
 
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
@@ -67,19 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        let texto = `O.S GERAL\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}`;
-
-        // Adiciona informações da última O.S se "Teve atendimento..." for "Sim"
-        if (atendimento === 'sim') {
-            texto += `\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOs}\n> ENCERRAMENTO: ${encerramentoOs}`;
-        } else {
-             texto += `\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]`;
-        }
-
-        textoGerado.textContent = texto;
+        textoGerado.textContent = `O.S GERAL\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOs}\n> ENCERRAMENTO: ${encerramentoOs}`;
     }
 
-    copiarButton.addEventListener('click', function() {
+    copiarButton.addEventListener('click', function () {
         gerarTexto();
         const texto = textoGerado.textContent;
         navigator.clipboard.writeText(texto).then(() => {
@@ -87,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    limparButton.addEventListener('click', function() {
+    limparButton.addEventListener('click', function () {
         // Limpar todos os campos
         document.querySelectorAll('input, textarea, select').forEach(input => {
             input.value = '';
@@ -96,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Event listeners para os campos de agendamento
-    agendamentoPeriodoInput.addEventListener('change', function() {
+    agendamentoPeriodoInput.addEventListener('change', function () {
         if (this.value === 'apos') {
             agendamentoHorarioInput.style.display = 'inline-block';
             labelAgendamentoHorario.style.display = 'inline-block';
@@ -104,14 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
-
-        // Mostra a notificação se for "última" ou "após", oculta caso contrário
-        if (this.value === 'ultima' || this.value === 'apos') {
-            notificacaoHorario.style.display = 'block';
-        } else {
-            notificacaoHorario.style.display = 'none';
-        }
-
         gerarTexto();
     });
 
@@ -124,19 +101,17 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', gerarTexto);
     });
 
-    // Event listener para o campo "Teve atendimento..."
-    atendimentoInput.addEventListener('change', function() {
-        if (this.value === 'nao') {
-            camposUltimaOS.style.display = 'none';
+    // Novo código para bairros de risco
+    const botaoVerBairrosRisco = document.getElementById('ver-bairros-risco');
+    const listaBairrosRisco = document.getElementById('lista-bairros-risco');
+
+    botaoVerBairrosRisco.addEventListener('click', function () {
+        if (listaBairrosRisco.style.display === 'none') {
+            listaBairrosRisco.style.display = 'block';
+            botaoVerBairrosRisco.textContent = 'Ocultar Bairros de Risco';
         } else {
-            camposUltimaOS.style.display = 'block';
+            listaBairrosRisco.style.display = 'none';
+            botaoVerBairrosRisco.textContent = 'Ver Bairros de Risco';
         }
-        gerarTexto();
     });
-
-    // Chamada inicial para definir o estado dos campos
-    atendimentoInput.dispatchEvent(new Event('change'));
-
-    // Chamada inicial para o campo de período
-    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
 });

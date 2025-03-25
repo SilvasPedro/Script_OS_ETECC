@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width | initial-scale=1.0">
     <title>O.S Geral</title>
     <link rel="stylesheet" href="styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -23,8 +23,20 @@
                 <li><a href="calculo_proporcional.html">Cálculo de Proporcional </a></li>
             </ul>
         </aside>
+
         <main class="content">
             <h1>O.S Geral</h1>
+            <div class="bairros-de-risco">
+                <button id="ver-bairros-risco">Ver Bairros de Risco</button>
+                <div id="lista-bairros-risco" style="display: none;">
+                    <h3>Bairros de Risco</h3>
+                    <ul>
+                        <li>Itanhaém - Guapurá</li>
+                        <li>Praia Grande - Jardim Trevo | Jardim Aclimação | Ribeirópolis | Balneário Japurá | Esmeralda
+                            | Parque das Américas | Samambaia | Melvi</li>
+                    </ul>
+                </div>
+            </div>
             <div class="form">
                 <label for="agendamento_data">Data de Agendamento:</label>
                 <input type="date" id="agendamento_data">
@@ -41,7 +53,8 @@
                 <p id="notificacao-horario" style="display: none; color: red; font-size: 0.9em; margin-top: 5px;">
                     A última O.S deve ser iniciada no máximo até às 16h30.
                 </p>
-                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário (Após):</label>
+                <label for="agendamento_horario" id="label_agendamento_horario" style="display: none;">Horário
+                    (Após):</label>
                 <input type="time" id="agendamento_horario" style="display: none;">
                 <br><br>
                 <fieldset>
