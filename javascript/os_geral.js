@@ -1,47 +1,66 @@
-document.addEventListener('DOMContentLoaded', function () {
+// javascript/os_geral.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Element References ---
+    // Bairros de Risco
+    const verBairrosRiscoButton = document.getElementById('ver-bairros-risco');
+    const listaBairrosRiscoDiv = document.getElementById('lista-bairros-risco');
+
+    // Agendamento
     const agendamentoDataInput = document.getElementById('agendamento_data');
     const agendamentoPeriodoInput = document.getElementById('agendamento_periodo');
     const agendamentoHorarioInput = document.getElementById('agendamento_horario');
     const labelAgendamentoHorario = document.getElementById('label_agendamento_horario');
+    const notificacaoHorarioP = document.getElementById('notificacao-horario'); // Referência para notificação
 
-    // Campos do formulário
+    // Formulário Geral
     const roteadorInput = document.getElementById('roteador');
     const onuInput = document.getElementById('onu');
     const contatoInput = document.getElementById('contato');
     const clienteDesdeInput = document.getElementById('cliente_desde');
-
     const solicitacaoInput = document.getElementById('solicitacao');
     const sinalInput = document.getElementById('sinal');
     const quedasInput = document.getElementById('quedas');
+
+    // Última O.S
     const atendimentoInput = document.getElementById('atendimento');
+    const camposUltimaOsDiv = document.getElementById('campos-ultima-os'); // Referência para o container div
     const tipoOsInput = document.getElementById('tipo_os');
     const dataOsInput = document.getElementById('data_os');
     const encerramentoOsInput = document.getElementById('encerramento_os');
 
+    // Botões e Resultado
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
 
-    // Função para formatar a data
-    function formatarData(data) {
-        if (!data) return '';
-        const dataObj = new Date(data);
-        const dia = String(dataObj.getDate() + 1).padStart(2, '0');
-        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-        const ano = dataObj.getFullYear();
-        return `${dia}-${mes}-${ano}`;
+    // --- Helper Functions ---
+    // Função para formatar a data (DD/MM/AAAA) tratando timezone
+    function formatarData(dataString) {
+        if (!dataString) return '';
+        // A entrada 'date' (YYYY-MM-DD) é interpretada como UTC 00:00:00
+        // Criamos o objeto Date corretamente para evitar problemas de timezone
+        const parts = dataString.split('-');
+        if (parts.length === 3) {
+            // Criar data em UTC para não ter deslocamento de fuso horário
+            const dataObj = new Date(Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10)));
+            const dia = String(dataObj.getUTCDate()).padStart(2, '0');
+            const mes = String(dataObj.getUTCMonth() + 1).padStart(2, '0'); // Mês é 0-indexado
+            const ano = dataObj.getUTCFullYear();
+            return `${dia}/${mes}/${ano}`;
+        }
+        return ''; // Retorna vazio se a string não estiver no formato esperado
     }
+
 
     function gerarTexto() {
         const agendamentoData = agendamentoDataInput.value;
         const agendamentoPeriodo = agendamentoPeriodoInput.value;
         const agendamentoHorario = agendamentoHorarioInput.value;
-
         const roteador = roteadorInput.value;
         const onu = onuInput.value;
         const contato = contatoInput.value;
         const clienteDesde = clienteDesdeInput.value;
-
         const solicitacao = solicitacaoInput.value;
         const sinal = sinalInput.value;
         const quedas = quedasInput.value;
@@ -50,68 +69,156 @@ document.addEventListener('DOMContentLoaded', function () {
         const dataOs = dataOsInput.value;
         const encerramentoOs = encerramentoOsInput.value;
 
+        // Usa a função formatarData atualizada
         const agendamentoDataFormatada = formatarData(agendamentoData);
         const clienteDesdeFormatada = formatarData(clienteDesde);
+        const dataOsFormatada = formatarData(dataOs); // Formata a data da OS também
 
         let agendamentoCompleto = agendamentoDataFormatada;
         if (agendamentoPeriodo) {
             agendamentoCompleto += ' - ' + agendamentoPeriodo.charAt(0).toUpperCase() + agendamentoPeriodo.slice(1);
             if (agendamentoPeriodo === 'apos' && agendamentoHorario) {
-                agendamentoCompleto += ' (' + agendamentoHorario + ')';
+                agendamentoCompleto += ` (${agendamentoHorario})`;
             }
         }
 
-        textoGerado.textContent = `O.S GERAL\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOs}\n> ENCERRAMENTO: ${encerramentoOs}`;
+        let texto = `O.S GERAL\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}`;
+
+        texto += `\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]`;
+        // Adiciona detalhes apenas se 'sim' estiver selecionado E os campos estiverem visíveis (redundante, mas seguro)
+        if (atendimento === 'sim' && camposUltimaOsDiv.style.display !== 'none') {
+            texto += `\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOsFormatada}\n> ENCERRAMENTO: ${encerramentoOs}`;
+        }
+
+        textoGerado.textContent = texto;
     }
 
-    copiarButton.addEventListener('click', function () {
-        gerarTexto();
-        const texto = textoGerado.textContent;
-        navigator.clipboard.writeText(texto).then(() => {
-            alert('Texto copiado para a área de transferência!');
+    // --- Event Listeners ---
+
+    // Requisito 1: Alternar visibilidade dos Bairros de Risco
+    if (verBairrosRiscoButton && listaBairrosRiscoDiv) {
+        // Define o estado inicial como escondido
+        listaBairrosRiscoDiv.style.display = 'none';
+        verBairrosRiscoButton.textContent = 'Ver Bairros de Risco'; // Texto inicial do botão
+
+        verBairrosRiscoButton.addEventListener('click', function() {
+            const isHidden = listaBairrosRiscoDiv.style.display === 'none';
+            listaBairrosRiscoDiv.style.display = isHidden ? 'block' : 'none';
+            // Atualiza o texto do botão
+            verBairrosRiscoButton.textContent = isHidden ? 'Ocultar Bairros de Risco' : 'Ver Bairros de Risco';
         });
-    });
+    }
 
-    limparButton.addEventListener('click', function () {
-        // Limpar todos os campos
-        document.querySelectorAll('input, textarea, select').forEach(input => {
-            input.value = '';
+    // Requisito 2 e Lógica existente: Mudança no Período de Agendamento
+    if (agendamentoPeriodoInput && notificacaoHorarioP && agendamentoHorarioInput && labelAgendamentoHorario) {
+        agendamentoPeriodoInput.addEventListener('change', function() {
+            const periodoSelecionado = this.value;
+
+            // Lógica existente para mostrar/esconder campo de horário "Após"
+            if (periodoSelecionado === 'apos') {
+                agendamentoHorarioInput.style.display = 'inline-block';
+                labelAgendamentoHorario.style.display = 'inline-block';
+            } else {
+                agendamentoHorarioInput.style.display = 'none';
+                labelAgendamentoHorario.style.display = 'none';
+                agendamentoHorarioInput.value = ''; // Limpa o horário se mudar para outro período
+            }
+
+            // Requisito 2: Mostrar/esconder a notificação de horário limite
+            if (periodoSelecionado === 'ultima' || periodoSelecionado === 'apos') {
+                notificacaoHorarioP.style.display = 'block';
+            } else {
+                notificacaoHorarioP.style.display = 'none';
+            }
+
+            gerarTexto(); // Atualiza o texto sempre que o período muda
         });
-        textoGerado.textContent = '';
+    }
+
+    // Requisito 3: Mudança na seleção de "Teve atendimento..."
+    if (atendimentoInput && camposUltimaOsDiv) {
+        atendimentoInput.addEventListener('change', function() {
+            if (this.value === 'nao') {
+                camposUltimaOsDiv.style.display = 'none';
+                // Opcional: Limpar os campos ao esconder
+                // tipoOsInput.value = '';
+                // dataOsInput.value = '';
+                // encerramentoOsInput.value = '';
+            } else { // Se for 'sim' ou outro valor
+                camposUltimaOsDiv.style.display = 'block'; // Garante que esteja visível
+            }
+            gerarTexto(); // Atualiza o texto sempre que esta seleção muda
+        });
+    }
+
+
+    // --- Botões Copiar e Limpar (Mantidos como no original, com pequenas melhorias) ---
+    if (copiarButton) {
+        copiarButton.addEventListener('click', function() {
+            gerarTexto(); // Garante que o texto está atualizado antes de copiar
+            const texto = textoGerado.textContent;
+            if (texto && texto !== 'Preencha todos os campos.') { // Evita copiar placeholders
+                navigator.clipboard.writeText(texto).then(() => {
+                    alert('Texto copiado para a área de transferência!');
+                }, (err) => {
+                   console.error('Erro ao copiar texto: ', err);
+                   alert('Erro ao copiar texto. Verifique as permissões do navegador.');
+                });
+           } else {
+               alert('Nada para copiar ou campos obrigatórios não preenchidos.');
+           }
+        });
+    }
+
+    if (limparButton) {
+        limparButton.addEventListener('click', function() {
+            // Seleciona todos os inputs, textareas e selects dentro da div .form no .content
+            document.querySelectorAll('.content .form input[type="text"], .content .form input[type="date"], .content .form input[type="time"], .content .form input[type="tel"], .content .form input[type="url"], .content .form textarea, .content .form select').forEach(el => {
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0; // Reseta select para a primeira opção
+                } else {
+                    el.value = ''; // Limpa valor de inputs e textareas
+                }
+            });
+
+            textoGerado.textContent = ''; // Limpa a área de resultado
+
+            // Garante que os elementos controlados por JS voltem ao estado inicial
+            if (listaBairrosRiscoDiv) listaBairrosRiscoDiv.style.display = 'none';
+            if (verBairrosRiscoButton) verBairrosRiscoButton.textContent = 'Ver Bairros de Risco';
+            if (notificacaoHorarioP) notificacaoHorarioP.style.display = 'none';
+            if (agendamentoHorarioInput) agendamentoHorarioInput.style.display = 'none';
+            if (labelAgendamentoHorario) labelAgendamentoHorario.style.display = 'none';
+            // camposUltimaOsDiv será resetado pelo trigger abaixo
+
+            // Dispara os eventos 'change' para que a visibilidade seja redefinida corretamente
+            if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+            if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
+
+             // Opcional: Regenerar o texto (será baseado nos campos vazios/padrão)
+             // gerarTexto();
+        });
+    }
+
+    // --- Atualização Dinâmica do Texto (Mantido) ---
+    // Adiciona listeners para atualizar o texto gerado conforme o usuário preenche
+    document.querySelectorAll('.content .form input, .content .form textarea, .content .form select').forEach(input => {
+         // Adiciona listener genérico 'change'
+         input.addEventListener('change', gerarTexto);
+         // Adiciona listener 'input' para resposta mais rápida em campos de texto
+         if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+             input.addEventListener('input', gerarTexto);
+         }
     });
 
-    // Event listeners para os campos de agendamento
-    agendamentoPeriodoInput.addEventListener('change', function () {
-        if (this.value === 'apos') {
-            agendamentoHorarioInput.style.display = 'inline-block';
-            labelAgendamentoHorario.style.display = 'inline-block';
-        } else {
-            agendamentoHorarioInput.style.display = 'none';
-            labelAgendamentoHorario.style.display = 'none';
-        }
-        gerarTexto();
-    });
+    // --- Configuração do Estado Inicial ---
+    // Garante que a página carregue com a visibilidade correta dos elementos
+    // (O listener de Bairros já define o estado inicial)
+    if (notificacaoHorarioP) notificacaoHorarioP.style.display = 'none'; // Começa escondido
+    // Dispara os eventos 'change' dos selects ao carregar a página
+    // para definir a visibilidade inicial dos elementos dependentes
+    if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+    if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
+    gerarTexto(); // Gera o texto inicial (com campos vazios ou padrão)
 
-    agendamentoDataInput.addEventListener('change', gerarTexto);
-    agendamentoHorarioInput.addEventListener('change', gerarTexto);
-    clienteDesdeInput.addEventListener('change', gerarTexto);
-
-    // Adiciona event listeners para os outros campos para regenerar o texto
-    document.querySelectorAll('input, textarea, select').forEach(input => {
-        input.addEventListener('change', gerarTexto);
-    });
-
-    // Novo código para bairros de risco
-    const botaoVerBairrosRisco = document.getElementById('ver-bairros-risco');
-    const listaBairrosRisco = document.getElementById('lista-bairros-risco');
-
-    botaoVerBairrosRisco.addEventListener('click', function () {
-        if (listaBairrosRisco.style.display === 'none') {
-            listaBairrosRisco.style.display = 'block';
-            botaoVerBairrosRisco.textContent = 'Ocultar Bairros de Risco';
-        } else {
-            listaBairrosRisco.style.display = 'none';
-            botaoVerBairrosRisco.textContent = 'Ver Bairros de Risco';
-        }
-    });
 });

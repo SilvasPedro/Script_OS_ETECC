@@ -36,7 +36,7 @@
                 <input type="text" id="solicitacao" value="MUDANÇA DE ENDEREÇO" readonly>
 
                 <label for="agendamento_data">Data de Agendamento:</label>
-                <input type="date" id="agendamento_data">
+                <input type="text" id="agendamento_data">
 
                 <label for="agendamento_periodo">Período:</label>
                 <select id="agendamento_periodo">
@@ -55,7 +55,7 @@
                 <input type="time" id="agendamento_horario" style="display: none;">
 
                 <label for="cliente_desde">Cliente desde:</label>
-                <input type="date" id="cliente_desde">
+                <input type="text" id="cliente_desde">
 
                 <label for="telefone">Tel.:</label>
                 <input type="tel" id="telefone">
@@ -83,20 +83,22 @@
                     <option value="Não possui">Não possui</option>
                     <option value="Não enviado">Não enviado</option>
                 </select>
-
                 <label>Cliente tem ponto adicional?</label>
                 <select id="ponto_adicional">
-                    <option value="sim">Sim</option>
                     <option value="nao">Não</option>
+                    <option value="sim">Sim</option>
+
                 </select>
-            </div>
-            <div class="buttons">
-                <button id="copiar">Copiar Script</button>
-                <button id="limpar">Limpar Formulário</button>
-            </div>
-            <div class="resultado">
-                <p id="texto-gerado"></p>
-            </div>
+                <div id="alerta_ponto_adicional" style="display: none; color: red; margin-top: 10px;">
+                    Notifique o cliente sobre avaliação desse ponto para a nova residência.
+                </div>
+                <div class="buttons">
+                    <button id="copiar">Copiar Script</button>
+                    <button id="limpar">Limpar Formulário</button>
+                </div>
+                <div class="resultado">
+                    <p id="texto-gerado"></p>
+                </div>
         </main>
     </div>
     <script src="javascript/os_mudanca_endereco.js"></script>

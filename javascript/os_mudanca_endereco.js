@@ -17,18 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
-
-    // Nova notificação
-    const notificacaoHorario = document.getElementById('notificacao-horario');
+    const alertaPontoAdicional = document.getElementById('alerta_ponto_adicional'); // Obtém a div de alerta
 
     // Função para formatar a data
     function formatarData(data) {
         if (!data) return '';
         const dataObj = new Date(data);
-        const dia = String(dataObj.getDate() + 1).padStart(2, '0');
+        const dia = String(dataObj.getDate()).padStart(2, '0');
         const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
         const ano = dataObj.getFullYear();
-        return `${dia}-${mes}-${ano}`;
+        return `${dia}/${mes}/${ano}`;
     }
 
     function gerarTexto() {
@@ -57,18 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        let texto = `> PODE ADIANTAR? [${adiantar}]\n\n` +
-                    `> SOLICITAÇÃO: MUDANÇA DE ENDEREÇO.\n` +
-                    `> AGENDAMENTO: ${agendamentoCompleto}\n` +
-                    `> TEL.: ${telefone}\n\n` +
-                    `> ENDEREÇO ATUAL: ${enderecoAtual}\n` +
-                    `> NOVO ENDEREÇO: ${novoEndereco}\n` +
-                    `> REF. DO NOVO ENDEREÇO: ${refNovoEndereco}\n` +
-                    `> LOCALIZAÇÃO MAPS: ${localizacaoMaps}\n\n` +
-                    `> TAXA: ISENTO\n` +
-                    `> CLIENTE CIENTE QUE TEM QUE LEVAR EQUIPAMENTOS ATÉ O NOVO LOCAL\n\n` +
-                    `> COMPROVANTE DE ENDEREÇO: ${comprovanteEndereco}\n` +
-                    `> CLIENTE TEM PONTO ADICIONAL: [${pontoAdicional}]`;
+        let texto = `> PODE ADIANTAR? [${adiantar}]\n\n> SOLICITAÇÃO: MUDANÇA DE ENDEREÇO.\n> AGENDAMENTO: ${agendamentoCompleto}\n> TEL.: ${telefone}\n\n> ENDEREÇO ATUAL: ${enderecoAtual}\n> NOVO ENDEREÇO: ${novoEndereco}\n> REF. DO NOVO ENDEREÇO: ${refNovoEndereco}\n> LOCALIZAÇÃO MAPS: ${localizacaoMaps}\n\n> TAXA: ISENTO\n> CLIENTE CIENTE QUE TEM QUE LEVAR EQUIPAMENTOS ATÉ O NOVO LOCAL\n\n> COMPROVANTE DE ENDEREÇO: ${comprovanteEndereco}\n> CLIENTE TEM PONTO ADICIONAL: [${pontoAdicional}]`;
+
+        if (pontoAdicional === 'SIM') {
+            texto += '\nCLIENTE CIENTE QUE PONTO ADICIONAL SERÁ AVALIADO NA NOVA RESIDÊNCIA.';
+        }
 
         textoGerado.textContent = texto;
     }
@@ -98,14 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
             agendamentoHorarioInput.style.display = 'none';
             labelAgendamentoHorario.style.display = 'none';
         }
-
-        // Mostra a notificação se for "última" ou "após", oculta caso contrário
-        if (this.value === 'ultima' || this.value === 'apos') {
-            notificacaoHorario.style.display = 'block';
-        } else {
-            notificacaoHorario.style.display = 'none';
-        }
-
         gerarTexto();
     });
 
@@ -118,6 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', gerarTexto);
     });
 
-    // Chamada inicial para o campo de período
-    agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+    // Event listener para o campo "Cliente tem ponto adicional?"
+    pontoAdicionalInput.addEventListener('change', function() {
+        if (this.value === 'sim') {
+            alertaPontoAdicional.style.display = 'block'; // Mostra o alerta
+        } else {
+            alertaPontoAdicional.style.display = 'none'; // Esconde o alerta
+        }
+        gerarTexto(); // Atualiza o texto
+    });
 });
