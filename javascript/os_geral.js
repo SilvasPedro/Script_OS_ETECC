@@ -1,6 +1,6 @@
 // javascript/os_geral.js
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // --- Element References ---
     // Bairros de Risco
     const verBairrosRiscoButton = document.getElementById('ver-bairros-risco');
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const solicitacaoInput = document.getElementById('solicitacao');
     const sinalInput = document.getElementById('sinal');
     const quedasInput = document.getElementById('quedas');
+    const operador = document.getElementById('operador');
 
     // Última O.S
     const atendimentoInput = document.getElementById('atendimento');
@@ -82,14 +83,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        let texto = `O.S GERAL\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesdeFormatada}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}`;
+        let texto = `OPERADOR: ${operador.value}\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesde}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}\n\n-- INFORMAÇÕES TÉCNICAS --\n> SINAL / STATUS ONU: ${sinal}\n> HISTÓRICO DE QUEDAS:\n${quedas}`;
 
         texto += `\n\n-- ÚLTIMA O.S --\n> TEVE ATENDIMENTO OU O.S DE SUPORTE RECENTEMENTE? [${atendimento.toUpperCase()}]`;
         // Adiciona detalhes apenas se 'sim' estiver selecionado E os campos estiverem visíveis (redundante, mas seguro)
         if (atendimento === 'sim' && camposUltimaOsDiv.style.display !== 'none') {
-            texto += `\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOsFormatada}\n> ENCERRAMENTO: ${encerramentoOs}`;
+            texto += `\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOs}\n> ENCERRAMENTO: ${encerramentoOs}`;
         }
-
+        
         textoGerado.textContent = texto;
     }
 
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         listaBairrosRiscoDiv.style.display = 'none';
         verBairrosRiscoButton.textContent = 'Ver Bairros de Risco'; // Texto inicial do botão
 
-        verBairrosRiscoButton.addEventListener('click', function() {
+        verBairrosRiscoButton.addEventListener('click', function () {
             const isHidden = listaBairrosRiscoDiv.style.display === 'none';
             listaBairrosRiscoDiv.style.display = isHidden ? 'block' : 'none';
             // Atualiza o texto do botão
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Requisito 2 e Lógica existente: Mudança no Período de Agendamento
     if (agendamentoPeriodoInput && notificacaoHorarioP && agendamentoHorarioInput && labelAgendamentoHorario) {
-        agendamentoPeriodoInput.addEventListener('change', function() {
+        agendamentoPeriodoInput.addEventListener('change', function () {
             const periodoSelecionado = this.value;
 
             // Lógica existente para mostrar/esconder campo de horário "Após"
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Requisito 3: Mudança na seleção de "Teve atendimento..."
     if (atendimentoInput && camposUltimaOsDiv) {
-        atendimentoInput.addEventListener('change', function() {
+        atendimentoInput.addEventListener('change', function () {
             if (this.value === 'nao') {
                 camposUltimaOsDiv.style.display = 'none';
                 // Opcional: Limpar os campos ao esconder
@@ -154,24 +155,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Botões Copiar e Limpar (Mantidos como no original, com pequenas melhorias) ---
     if (copiarButton) {
-        copiarButton.addEventListener('click', function() {
+        copiarButton.addEventListener('click', function () {
             gerarTexto(); // Garante que o texto está atualizado antes de copiar
             const texto = textoGerado.textContent;
             if (texto && texto !== 'Preencha todos os campos.') { // Evita copiar placeholders
                 navigator.clipboard.writeText(texto).then(() => {
                     alert('Texto copiado para a área de transferência!');
                 }, (err) => {
-                   console.error('Erro ao copiar texto: ', err);
-                   alert('Erro ao copiar texto. Verifique as permissões do navegador.');
+                    console.error('Erro ao copiar texto: ', err);
+                    alert('Erro ao copiar texto. Verifique as permissões do navegador.');
                 });
-           } else {
-               alert('Nada para copiar ou campos obrigatórios não preenchidos.');
-           }
+            } else {
+                alert('Nada para copiar ou campos obrigatórios não preenchidos.');
+            }
         });
     }
 
     if (limparButton) {
-        limparButton.addEventListener('click', function() {
+        limparButton.addEventListener('click', function () {
             // Seleciona todos os inputs, textareas e selects dentro da div .form no .content
             document.querySelectorAll('.content .form input[type="text"], .content .form input[type="date"], .content .form input[type="time"], .content .form input[type="tel"], .content .form input[type="url"], .content .form textarea, .content .form select').forEach(el => {
                 if (el.tagName === 'SELECT') {
@@ -195,20 +196,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
             if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
 
-             // Opcional: Regenerar o texto (será baseado nos campos vazios/padrão)
-             // gerarTexto();
+            // Opcional: Regenerar o texto (será baseado nos campos vazios/padrão)
+            // gerarTexto();
         });
     }
 
     // --- Atualização Dinâmica do Texto (Mantido) ---
     // Adiciona listeners para atualizar o texto gerado conforme o usuário preenche
     document.querySelectorAll('.content .form input, .content .form textarea, .content .form select').forEach(input => {
-         // Adiciona listener genérico 'change'
-         input.addEventListener('change', gerarTexto);
-         // Adiciona listener 'input' para resposta mais rápida em campos de texto
-         if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
-             input.addEventListener('input', gerarTexto);
-         }
+        // Adiciona listener genérico 'change'
+        input.addEventListener('change', gerarTexto);
+        // Adiciona listener 'input' para resposta mais rápida em campos de texto
+        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+            input.addEventListener('input', gerarTexto);
+        }
     });
 
     // --- Configuração do Estado Inicial ---

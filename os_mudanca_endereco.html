@@ -20,7 +20,6 @@
                 <li><a href="os_geral.html">O.S Geral</a></li>
                 <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
                 <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
-                <li><a href="calculo_proporcional.html">Cálculo de Proporcional </a></li>
             </ul>
         </aside>
         <main class="content">
@@ -36,7 +35,7 @@
                 <input type="text" id="solicitacao" value="MUDANÇA DE ENDEREÇO" readonly>
 
                 <label for="agendamento_data">Data de Agendamento:</label>
-                <input type="text" id="agendamento_data">
+                <input type="date" id="agendamento_data">
 
                 <label for="agendamento_periodo">Período:</label>
                 <select id="agendamento_periodo">
@@ -87,11 +86,16 @@
                 <select id="ponto_adicional">
                     <option value="nao">Não</option>
                     <option value="sim">Sim</option>
-
                 </select>
                 <div id="alerta_ponto_adicional" style="display: none; color: red; margin-top: 10px;">
                     Notifique o cliente sobre avaliação desse ponto para a nova residência.
                 </div>
+                <BR></BR>
+                <fieldset>
+                    <legend>NOME DO ATENDENTE</legend>
+                    <label for="operador">Atendente:</label>
+                    <input type="text" name="nome_do_operador" id="operador" value="" placeholder="Digite seu nome aqui...">
+                </fieldset>
                 <div class="buttons">
                     <button id="copiar">Copiar Script</button>
                     <button id="limpar">Limpar Formulário</button>

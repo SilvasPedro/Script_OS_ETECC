@@ -20,7 +20,6 @@
                 <li><a href="os_geral.html">O.S Geral</a></li>
                 <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
                 <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
-                <li><a href="calculo_proporcional.html">Cálculo de Proporcional </a></li>
             </ul>
         </aside>
 
@@ -72,7 +71,7 @@
                     <label for="contato">Contato:</label>
                     <input type="text" id="contato">
                     <label for="cliente_desde">Cliente desde:</label>
-                    <input type="date" id="cliente_desde">
+                    <input type="text" id="cliente_desde">
                 </fieldset>
 
                 <fieldset>
@@ -99,10 +98,16 @@
                         <label for="tipo_os">Tipo de O.S:</label>
                         <input type="text" id="tipo_os">
                         <label for="data_os">Data:</label>
-                        <input type="date" id="data_os">
+                        <input type="text" id="data_os">
                         <label for="encerramento_os">Encerramento:</label>
                         <textarea id="encerramento_os"></textarea>
                     </div>
+                </fieldset>
+                <fieldset>
+                    <legend>NOME DO ATENDENTE</legend>
+                    <label for="operador">Atendente:</label>
+                    <input type="text" name="nome_do_operador" id="operador" value=""
+                        placeholder="Digite seu nome aqui...">
                 </fieldset>
             </div>
             <div class="buttons">

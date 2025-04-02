@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const roteadorInput = document.getElementById('roteador');
     const onuInput = document.getElementById('onu');
     const clienteDesdeInput = document.getElementById('cliente_desde');
+    const operador = document.getElementById('operador');
 
     // Informações da O.S e Proporcional
     const upgradeInput = document.getElementById('upgrade');
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Constrói a string de texto
-        let texto = `> AGENDAMENTO: ${agendamentoCompleto}\n\n` +
+        let texto = `> OPERADOR: ${operador.value}\n\n> AGENDAMENTO: ${agendamentoCompleto}\n\n` +
                     `> SOLICITAÇÃO: ${solicitacao}\n\n` +
                     `-- INFORMAÇÕES DO CLIENTE --\n` +
                     `> TEL.: ${telefone}\n` +
