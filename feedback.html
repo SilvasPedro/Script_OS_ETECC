@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width | initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icon/favicon.png" type="image/png">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="index.html">Script Abertura</a></li>
+                <li><a href="encerramento.html">Script Encerramento</a></li>
+                <li><a href="feedback.html">Script Feedback</a></li>
+                <li><a href="os_geral.html">O.S Geral</a></li>
+                <li><a href="os_ponto_adicional.html">O.S Ponto Adicional</a></li>
+                <li><a href="os_mudanca_endereco.html">O.S Mudança de Endereço</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h1>SCRIPT DE FEEDBACK</h1>
+            <div class="form">
+                <fieldset>
+                    <legend>INFORMAÇÕES DO CLIENTE</legend>
+                    <label for="nome_do_cliente">Nome do cliente:</label>
+                    <input type="text" name="nome_do_cliente" id="nome_do_cliente">
+                    <label for="telefone_do_cliente">Telefone:</label>
+                    <input type="text" name="telefone_do_cliente" id="telefone_do_cliente">
+                    <label for="relato_do_cliente">Relato Inicial:</label>
+                    <textarea name="relato_inicial" id="relato_do_cliente"></textarea>
+                </fieldset>
+                <fieldset>
+                    <legend>PONTOS DE ANÁLISE</legend>
+                    <label for="">Conexão e estabilidade:</label>
+                    <textarea name="conexao_e_estabilidade"></textarea>
+                    <label for="">Avaliação de atendimento:</label>
+                    <textarea name="avaliacao_de_atendimento"></textarea>
+                    <label for="">Sugestões e pontos de melhoria</label>
+                    <textarea name="sugestoes_melhoria"></textarea>
+                </fieldset>
+                <fieldset>
+                    <legend>AVALIAÇÃO DO GOOGLE</legend>
+                    <label for="">Cliente aceitou link de avaliação do Google?</label>
+                    <div class="teste">
+                        <input type="checkbox" name="avaliacao_google" id="avaliacao_google_sim"><label for="avaliacao_google_sim">Sim</label>
+                        <input type="checkbox" name="avaliacao_google" id="avaliacao_google_nao"><label for="avaliacao_google_nao">Não</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>DETALHES DO ATENDIMENTO</legend>
+                    <label for="">Atendente responsável:</label>
+                    <input type="text" name="atendente_responsavel" id="">
+                    <label for="">Data do atendimento</label>
+                    <input type="date" name="data_atendimento" id="">
+                </fieldset>
+            </div>
+            <div class="buttons">
+                <button id="copiar">Copiar Script</button>
+                <button id="limpar">Limpar Formulário</button>
+            </div>
+            <div class="resultado">
+                <p id="texto-gerado"></p>
+            </div>
+        </main>
+    </div>
+    <script src="javascript/feedback.js"></script>
+</body>
+
+</html>

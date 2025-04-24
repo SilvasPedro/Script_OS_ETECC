@@ -305,7 +305,7 @@ button:active {
 }
 
 input[type="checkbox"] {
-    width: 20px;
+    width: 28px;
     height: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
