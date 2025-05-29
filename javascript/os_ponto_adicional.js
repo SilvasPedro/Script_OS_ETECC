@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const labelBaixaAvaliacao = document.getElementById('label_baixa_avaliacao');
     const baixaAvaliacaoTextarea = document.getElementById('baixa_avaliacao');
 
+    // Novos campos para Autorização por Exceção
+    const autorizadaExcecaoSimCheckbox = document.getElementById('autorizada_excecao_sim');
+    const autorizadaExcecaoNaoCheckbox = document.getElementById('autorizada_excecao_nao');
+    const campoAutorizadorDiv = document.getElementById('campo_autorizador');
+    const nomeAutorizadorInput = document.getElementById('nome_autorizador');
+
     // Botões e Resultado
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
@@ -78,6 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Valores da avaliação
         const avaliacaoTecnica = avaliacaoTecnicaSelect.value.toUpperCase();
         const baixaAvaliacao = baixaAvaliacaoTextarea.value;
+
+        // Novos campos de autorização por exceção
+        const autorizadaExcecaoSim = autorizadaExcecaoSimCheckbox.checked;
+        const autorizadaExcecaoNao = autorizadaExcecaoNaoCheckbox.checked;
+        const nomeAutorizador = nomeAutorizadorInput.value;
 
 
         // Formata as datas
@@ -126,6 +137,14 @@ document.addEventListener('DOMContentLoaded', function() {
          if (avaliacaoTecnica === 'SIM' && baixaAvaliacaoTextarea.style.display !== 'none') { // Verifica também se está visível
              texto += `\n> BAIXA DA AVALIAÇÃO:\n${baixaAvaliacao}`;
          }
+
+        // Nova seção para Autorização por Exceção
+        texto += `\n\n-- AUTORIZAÇÃO POR EXCEÇÃO --\n` +
+                 `> O.S AUTORIZADA COM EXCEÇÃO PELA TORRE DE SERVIÇOS? [${autorizadaExcecaoSim ? 'SIM' : (autorizadaExcecaoNao ? 'NÃO' : '')}]`;
+
+        if (autorizadaExcecaoSim) {
+            texto += `\n> NOME DE QUEM AUTORIZOU: ${nomeAutorizador}`;
+        }
 
         textoGerado.textContent = texto;
     }
@@ -203,6 +222,29 @@ document.addEventListener('DOMContentLoaded', function() {
          });
     }
 
+    // Nova lógica para autorização por exceção
+    if (autorizadaExcecaoSimCheckbox && autorizadaExcecaoNaoCheckbox && campoAutorizadorDiv && nomeAutorizadorInput) {
+        autorizadaExcecaoSimCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                autorizadaExcecaoNaoCheckbox.checked = false; // Desmarca "Não"
+                campoAutorizadorDiv.style.display = 'block'; // Mostra o campo do nome
+            } else {
+                campoAutorizadorDiv.style.display = 'none'; // Esconde se "Sim" for desmarcado
+                nomeAutorizadorInput.value = ''; // Limpa o campo
+            }
+            gerarTexto(); // Atualiza o texto gerado
+        });
+
+        autorizadaExcecaoNaoCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                autorizadaExcecaoSimCheckbox.checked = false; // Desmarca "Sim"
+                campoAutorizadorDiv.style.display = 'none'; // Esconde o campo do nome
+                nomeAutorizadorInput.value = ''; // Limpa o campo
+            }
+            gerarTexto(); // Atualiza o texto gerado
+        });
+    }
+
     // Botões Copiar e Limpar (Mantidos e atualizados)
     if (copiarButton) {
         copiarButton.addEventListener('click', function() {
@@ -240,6 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
             if (gerouProporcionalCheckbox) gerouProporcionalCheckbox.dispatchEvent(new Event('change'));
             if (avaliacaoTecnicaSelect) avaliacaoTecnicaSelect.dispatchEvent(new Event('change')); // Adicionado trigger
+            if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+            if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+
 
             // Opcional: gerarTexto(); // Para mostrar o texto vazio/padrão
         });
@@ -259,6 +304,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
     if (gerouProporcionalCheckbox) gerouProporcionalCheckbox.dispatchEvent(new Event('change'));
     if (avaliacaoTecnicaSelect) avaliacaoTecnicaSelect.dispatchEvent(new Event('change')); // Garante estado inicial da avaliação
+    if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+    if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
     gerarTexto(); // Gera o texto inicial
 
 });

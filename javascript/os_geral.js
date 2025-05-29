@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const dataOsInput = document.getElementById('data_os');
     const encerramentoOsInput = document.getElementById('encerramento_os');
 
+    // Autorização por Exceção
+    const autorizadaExcecaoSimCheckbox = document.getElementById('autorizada_excecao_sim');
+    const autorizadaExcecaoNaoCheckbox = document.getElementById('autorizada_excecao_nao');
+    const campoAutorizadorDiv = document.getElementById('campo_autorizador');
+    const nomeAutorizadorInput = document.getElementById('nome_autorizador');
+
     // Botões e Resultado
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
@@ -70,6 +76,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const dataOs = dataOsInput.value;
         const encerramentoOs = encerramentoOsInput.value;
 
+        // Novos campos de autorização por exceção
+        const autorizadaExcecaoSim = autorizadaExcecaoSimCheckbox.checked;
+        const autorizadaExcecaoNao = autorizadaExcecaoNaoCheckbox.checked;
+        const nomeAutorizador = nomeAutorizadorInput.value;
+
         // Usa a função formatarData atualizada
         const agendamentoDataFormatada = formatarData(agendamentoData);
         const clienteDesdeFormatada = formatarData(clienteDesde);
@@ -91,6 +102,14 @@ document.addEventListener('DOMContentLoaded', function () {
             texto += `\n> TIPO DE O.S: ${tipoOs}\n> DATA: ${dataOs}\n> ENCERRAMENTO: ${encerramentoOs}`;
         }
         
+        // Nova seção para Autorização por Exceção
+        texto += `\n\n-- AUTORIZAÇÃO POR EXCEÇÃO --\n` +
+                 `> O.S AUTORIZADA COM EXCEÇÃO PELA TORRE DE SERVIÇOS? [${autorizadaExcecaoSim ? 'SIM' : (autorizadaExcecaoNao ? 'NÃO' : '')}]`;
+
+        if (autorizadaExcecaoSim) {
+            texto += `\n> NOME DE QUEM AUTORIZOU: ${nomeAutorizador}`;
+        }
+
         textoGerado.textContent = texto;
     }
 
@@ -152,6 +171,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Nova lógica para autorização por exceção
+    if (autorizadaExcecaoSimCheckbox && autorizadaExcecaoNaoCheckbox && campoAutorizadorDiv && nomeAutorizadorInput) {
+        autorizadaExcecaoSimCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                autorizadaExcecaoNaoCheckbox.checked = false; // Desmarca "Não"
+                campoAutorizadorDiv.style.display = 'block'; // Mostra o campo do nome
+            } else {
+                campoAutorizadorDiv.style.display = 'none'; // Esconde se "Sim" for desmarcado
+                nomeAutorizadorInput.value = ''; // Limpa o campo
+            }
+            gerarTexto(); // Atualiza o texto gerado
+        });
+
+        autorizadaExcecaoNaoCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                autorizadaExcecaoSimCheckbox.checked = false; // Desmarca "Sim"
+                campoAutorizadorDiv.style.display = 'none'; // Esconde o campo do nome
+                nomeAutorizadorInput.value = ''; // Limpa o campo
+            }
+            gerarTexto(); // Atualiza o texto gerado
+        });
+    }
+
 
     // --- Botões Copiar e Limpar (Mantidos como no original, com pequenas melhorias) ---
     if (copiarButton) {
@@ -182,12 +224,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
+            // Limpa os checkboxes
+            document.querySelectorAll('.content .form input[type="checkbox"]').forEach(el => {
+                el.checked = false;
+            });
+
+
             textoGerado.textContent = ''; // Limpa a área de resultado
 
             // Garante que os elementos controlados por JS voltem ao estado inicial
             if (listaBairrosRiscoDiv) listaBairrosRiscoDiv.style.display = 'none';
             if (verBairrosRiscoButton) verBairrosRiscoButton.textContent = 'Ver Bairros de Risco';
-            if (notificacaoHorarioP) notificacaoHorarioP.style.display = 'none';
+            if (notificacaoHorarioP) notificacaoHorificacaoHorarioP.style.display = 'none';
             if (agendamentoHorarioInput) agendamentoHorarioInput.style.display = 'none';
             if (labelAgendamentoHorario) labelAgendamentoHorario.style.display = 'none';
             // camposUltimaOsDiv será resetado pelo trigger abaixo
@@ -195,6 +243,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dispara os eventos 'change' para que a visibilidade seja redefinida corretamente
             if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
             if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
+            if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+            if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
 
             // Opcional: Regenerar o texto (será baseado nos campos vazios/padrão)
             // gerarTexto();
@@ -220,6 +270,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // para definir a visibilidade inicial dos elementos dependentes
     if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
     if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
-    gerarTexto(); // Gera o texto inicial (com campos vazios ou padrão)
+    if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+    if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+    gerarTexto(); // Gera o texto inicial
 
 });

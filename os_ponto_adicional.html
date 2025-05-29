@@ -120,6 +120,18 @@
                     <textarea id="baixa_avaliacao" style="display: none;"></textarea>
                 </fieldset>
                 <fieldset>
+                    <legend>AUTORIZAÇÃO POR EXCEÇÃO</legend>
+                    <label>Essa ordem de serviço foi autorizada com exceção pela torre de serviços?</label>
+                    <div class="teste">
+                        <input type="checkbox" id="autorizada_excecao_sim"> <label for="autorizada_excecao_sim">Sim</label>
+                        <input type="checkbox" id="autorizada_excecao_nao"> <label for="autorizada_excecao_nao">Não</label>
+                    </div>
+                    <div id="campo_autorizador" style="display: none;">
+                        <label for="nome_autorizador">Nome de quem autorizou:</label>
+                        <input type="text" id="nome_autorizador" placeholder="Nome do autorizador">
+                    </div>
+                </fieldset>
+                <fieldset>
                     <legend>NOME DO ATENDENTE</legend>
                     <label for="operador">Atendente:</label>
                     <input type="text" name="nome_do_operador" id="operador" value="" placeholder="Digite seu nome aqui...">
