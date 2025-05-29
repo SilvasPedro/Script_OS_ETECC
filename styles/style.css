@@ -3,343 +3,396 @@ body {
     font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alinha o conteúdo ao topo para melhor visualização em telas maiores */
     min-height: 100vh;
     margin: 0;
-    background-color: #F7F6F3;
-    /* Cor de fundo alterada */
-    color: #060C12;
-    /* Cor do texto principal alterada */
-    transition: background-color 0.3s ease;
-    padding-top: 10vh;
-    /* Margem superior */
-    padding-bottom: 10vh;
-    /* Margem inferior */
+    background-color: #F7F6F3; /* Cor de fundo principal */
+    color: #060C12; /* Cor do texto principal */
+    line-height: 1.6; /* Melhora a legibilidade do texto */
+    padding: 40px 20px; /* Espaçamento interno geral */
+    box-sizing: border-box; /* Garante que padding não adicione largura extra */
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     display: flex;
-    border-radius: 10px;
+    border-radius: 12px; /* Bordas mais arredondadas */
     overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    /* Sombra mais pronunciada */
-    transition: box-shadow 0.3s ease;
-    background-color: #F7F6F3;
-    /* Cor de fundo do container alterada */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Sombra mais suave e profissional */
+    background-color: #FFFFFF; /* Fundo branco para o container principal */
+    transition: all 0.3s ease; /* Transições suaves para interatividade */
+    border: 1px solid #eee; /* Borda sutil para separar do fundo */
 }
 
 .container:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    /* Efeito de elevação mais forte */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Sombra ligeiramente mais intensa ao passar o mouse */
 }
 
 /* Sidebar */
 .sidebar {
-    width: 250px;
-    background-color: #060C12;
-    /* Cor de fundo da sidebar alterada */
-    padding: 20px;
-    transition: width 0.3s ease;
-    color: #F7F6F3;
-    /* Cor do texto da sidebar alterada */
+    width: 280px; /* Largura da sidebar ajustada */
+    background-color: #060C12; /* Cor de fundo escura */
+    padding: 30px 20px; /* Mais padding para um visual espaçoso */
+    color: #F7F6F3; /* Cor do texto da sidebar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
 }
 
 .sidebar h2 {
-    margin-bottom: 20px;
+    margin-top: 0;
+    margin-bottom: 30px; /* Mais espaço abaixo do título */
     color: #F7F6F3;
-    /* Cor do título da sidebar alterada */
-    text-shadow: 1px 1px 1px #000;
-    animation: fadeIn 0.5s ease;
-    border-bottom: 2px solid #E4002B;
-    /* Adicionada borda inferior */
-    padding-bottom: 10px;
+    font-size: 1.8em; /* Título maior */
+    text-shadow: none; /* Remove text-shadow para um visual mais limpo */
+    border-bottom: 2px solid #E4002B; /* Borda inferior de destaque */
+    padding-bottom: 15px;
+    width: 100%; /* Garante que a borda ocupe toda a largura */
+    text-align: center; /* Centraliza o título */
+    box-sizing: border-box;
 }
 
 .sidebar ul {
     list-style: none;
     padding: 0;
+    width: 100%; /* Lista ocupa toda a largura disponível */
 }
 
 .sidebar li {
-    margin-bottom: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 12px; /* Espaçamento entre os itens da lista */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    border-radius: 6px; /* Bordas levemente arredondadas nos itens */
 }
 
 .sidebar li:hover {
-    transform: translateX(5px);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-    /* Sombra mais escura */
+    transform: translateX(0); /* Remove o deslocamento para um hover mais sutil */
+    background-color: rgba(228, 0, 43, 0.1); /* Fundo sutil ao passar o mouse */
+    box-shadow: none; /* Remove a sombra no hover para um visual mais limpo */
 }
 
 .sidebar a {
     text-decoration: none;
     color: #F7F6F3;
-    /* Cor do link da sidebar alterada */
-    padding: 10px 15px;
+    padding: 12px 20px; /* Mais padding para botões maiores */
     display: block;
-    border-radius: 5px;
-    background-color: #840016;
-    /* Cor de fundo do link da sidebar alterada */
+    border-radius: 6px;
+    background-color: #840016; /* Cor de fundo do link */
     transition: background-color 0.3s ease, color 0.3s ease;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    /* Adicionada sombra */
+    font-weight: 500; /* Levemente mais negrito */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra discreta */
 }
 
 .sidebar a:hover {
-    background-color: #E4002B;
-    /* Cor de fundo do link ao passar o mouse alterada */
+    background-color: #E4002B; /* Cor de destaque ao passar o mouse */
     color: #F7F6F3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada no hover */
 }
 
 /* Conteúdo Principal */
 .content {
     flex: 1;
-    padding: 30px;
-    background-color: #F7F6F3;
-    /* Cor de fundo do conteúdo alterada */
-    animation: fadeIn 0.5s ease;
+    padding: 40px; /* Mais padding para o conteúdo */
+    background-color: #F7F6F3; /* Fundo do conteúdo */
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Espaçamento entre seções do formulário */
 }
 
 h1 {
     text-align: center;
     color: #E4002B;
-    /* Cor do título principal alterada */
     margin-bottom: 30px;
-    font-size: 2.5em;
-    /* Tamanho da fonte aumentado */
+    font-size: 2.8em; /* Título principal maior */
     text-transform: uppercase;
-    letter-spacing: 3px;
-    /* Espaçamento entre letras aumentado */
-    text-shadow: 2px 2px 2px #ddd;
-    animation: slideInDown 0.5s ease;
+    letter-spacing: 2px; /* Espaçamento ajustado */
+    text-shadow: none; /* Remove text-shadow */
+    font-weight: 700; /* Mais negrito */
+    border-bottom: 3px solid #840016; /* Borda mais grossa */
+    padding-bottom: 15px;
 }
 
 /* Formulário */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os elementos do formulário */
+}
+
 .form fieldset {
-    border: 2px solid #840016;
-    /* Cor da borda do fieldset alterada */
+    border: 1px solid #ddd; /* Borda mais suave para fieldset */
     border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #F7F6F3;
+    padding: 25px; /* Mais padding interno */
+    margin-bottom: 0; /* Removido margin-bottom para controlar com gap */
+    background-color: #FFFFFF; /* Fundo branco para fieldset */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra mais leve */
     transition: box-shadow 0.3s ease;
 }
 
 .form fieldset:hover {
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
-    /* Sombra mais suave */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra sutilmente maior no hover */
 }
 
 .form fieldset legend {
-    font-weight: bold;
-    color: #840016;
-    /* Cor da legenda do fieldset alterada */
+    font-weight: 700; /* Legenda mais negrito */
+    color: #060C12; /* Cor da legenda alterada para o tom escuro */
+    padding: 0 10px; /* Padding na legenda */
+    background-color: #FFFFFF; /* Garante que a legenda tenha fundo branco */
+    border-radius: 4px;
+    font-size: 1.1em;
 }
 
 .form label {
     display: block;
     margin-top: 10px;
+    margin-bottom: 5px; /* Espaçamento abaixo do label */
     color: #060C12;
-    /* Cor do label alterada */
-    transition: color 0.3s ease;
-    font-weight: 500;
-    /* Adicionado peso à fonte */
+    font-weight: 600; /* Mais negrito para labels */
+    font-size: 0.95em;
 }
 
 .form input,
 .form textarea,
 .form select {
-    width: calc(100% - 22px);
-    padding: 12px 10px;
-    margin-top: 5px;
-    border: 1px solid #840016;
-    /* Cor da borda dos inputs alterada */
-    border-radius: 5px;
+    width: calc(100% - 20px); /* Ajuste no cálculo para padding interno */
+    padding: 12px; /* Padding interno consistente */
+    margin-top: 0; /* Removido margin-top, controlado por label margin-bottom */
+    border: 1px solid #ccc; /* Borda mais clara */
+    border-radius: 6px; /* Bordas levemente arredondadas */
     box-sizing: border-box;
     font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fff;
-    /* Cor de fundo dos inputs alterada */
     color: #060C12;
-    /* Cor do texto dos inputs alterada */
+    background-color: #fcfcfc; /* Fundo ligeiramente mais claro */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form input:focus,
 .form textarea:focus,
 .form select:focus {
-    border-color: #E4002B;
+    border-color: #E4002B; /* Cor de destaque ao focar */
     outline: none;
-    box-shadow: 0 0 5px rgba(228, 0, 43, 0.5);
-    /* Sombra com a cor de destaque */
+    box-shadow: 0 0 0 3px rgba(228, 0, 43, 0.2); /* Sombra de foco mais discreta */
 }
 
 .form textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px; /* Altura mínima maior para textarea */
 }
 
 /* Botões */
 .buttons {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    gap: 20px; /* Espaçamento entre os botões */
+    margin-top: 20px; /* Espaço acima dos botões */
+    margin-bottom: 0; /* Removido margin-bottom */
 }
 
 button {
-    padding: 14px 28px;
-    /* Tamanho dos botões aumentado */
-    margin: 10px 10px;
+    padding: 15px 30px; /* Tamanho dos botões ajustado */
     border: none;
     border-radius: 8px;
-    /* Borda arredondada */
     cursor: pointer;
     background-color: #E4002B;
-    /* Cor de fundo dos botões alterada */
     color: #F7F6F3;
-    /* Cor do texto dos botões alterada */
-    font-size: 1.1em;
-    /* Tamanho da fonte dos botões aumentado */
+    font-size: 1.05em; /* Tamanho da fonte levemente ajustado */
     font-weight: 600;
-    /* Adicionado peso à fonte */
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    /* Sombra inicial */
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra mais suave */
 }
 
 button:hover {
-    background-color: #840016;
-    /* Cor de fundo dos botões ao passar o mouse alterada */
-    transform: translateY(-3px);
-    /* Efeito de elevação */
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
-    /* Sombra mais pronunciada ao passar o mouse */
+    background-color: #840016; /* Cor de fundo no hover */
+    transform: translateY(-2px); /* Elevação sutil */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada no hover */
 }
 
 button:active {
     transform: translateY(0);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    /* Sombra ao clicar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ao clicar */
 }
 
 /* Resultado */
 .resultado {
-    border-top: 2px solid #840016;
-    /* Cor da borda do resultado alterada */
-    padding-top: 20px;
-    text-align: center;
-    animation: fadeIn 0.5s ease;
+    border-top: 1px solid #ccc; /* Borda superior mais suave */
+    padding-top: 25px; /* Mais padding superior */
+    text-align: left; /* Alinha o texto à esquerda */
+    margin-top: 20px;
+    background-color: #FFFFFF; /* Fundo branco para a área de resultado */
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra para destaque */
 }
 
 #texto-gerado {
     color: #060C12;
-    /* Cor do texto gerado alterada */
     white-space: pre-line;
-    font-size: 1.2em;
-    /* Tamanho da fonte do texto gerado aumentado */
-    line-height: 1.7;
-    /* Espaçamento entre linhas aumentado */
-    animation: fadeIn 0.5s ease;
-    font-weight: 500;
-    /* Adicionado peso à fonte */
+    font-size: 1.1em; /* Tamanho da fonte ajustado */
+    line-height: 1.8; /* Melhor espaçamento entre linhas */
+    font-weight: 400; /* Peso da fonte normal */
+    background-color: #f9f9f9; /* Fundo sutil para o texto gerado */
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px dashed #E4002B; /* Borda tracejada de destaque */
 }
 
 .teste {
     display: flex;
     align-items: center;
-    width: 99%;
+    gap: 10px; /* Espaçamento entre input e botão */
 }
 
+.teste input[type="text"] {
+    flex-grow: 1; /* Input ocupa o espaço restante */
+    width: auto; /* Anula o width 100% anterior para este contexto */
+}
+
+.teste button {
+    margin: 0; /* Remove margem extra dos botões dentro do .teste */
+    padding: 10px 15px; /* Padding menor para botões de copiar */
+    font-size: 0.9em;
+}
+
+/* Bairros de Risco */
 .bairros-de-risco {
     margin-bottom: 20px;
     text-align: center;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 #ver-bairros-risco {
-    padding: 10px 15px;
-    background-color: #840016;
-    /* Cor verde para destaque */
+    padding: 12px 20px;
+    background-color: #060C12; /* Cor escura para este botão */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1em;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 #ver-bairros-risco:hover {
-    background-color: #E4002B;
-    /* Verde mais escuro no hover */
+    background-color: #840016; /* Vermelho escuro no hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #lista-bairros-risco {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fcfcfc;
     text-align: left;
     display: none;
-    /* Esconde a lista inicialmente */
+    max-height: 200px; /* Altura máxima para rolagem */
+    overflow-y: auto; /* Adiciona rolagem se a lista for muito longa */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Sombra interna para indicar rolagem */
 }
 
 #lista-bairros-risco h3 {
     margin-top: 0;
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #E4002B;
-    /* Vermelho para o título */
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #lista-bairros-risco ul {
-    list-style-type: none;
-    padding: 0;
+    list-style-type: disc; /* Usar bullet points padrão para listas */
+    padding-left: 20px;
+    margin: 0;
 }
 
 #lista-bairros-risco li {
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    border-bottom: 1px dotted #eee; /* Borda pontilhada mais leve */
+    font-size: 0.95em;
+    color: #333;
 }
 
 #lista-bairros-risco li:last-child {
     border-bottom: none;
 }
 
+/* Notificação de Horário */
+#notificacao-horario {
+    color: #E4002B; /* Vermelho para a notificação */
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* Alerta de Ponto Adicional */
+#alerta_ponto_adicional {
+    color: #E4002B; /* Vermelho para o alerta */
+    font-size: 0.9em;
+    margin-top: 10px;
+    font-weight: 500;
+    padding: 10px;
+    background-color: rgba(228, 0, 43, 0.05); /* Fundo sutil */
+    border-left: 4px solid #E4002B; /* Borda de destaque */
+    border-radius: 4px;
+}
+
+
+/* Checkbox styling (Mais profissional e menos invasivo) */
 input[type="checkbox"] {
-    width: 28px;
+    width: 20px; /* Tamanho padrão */
     height: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border: 2px solid #840016; /* Cor padrão da borda */
-    border-radius: 4px;
+    border: 2px solid #840016;
+    border-radius: 4px; /* Mais quadrado */
     cursor: pointer;
     position: relative;
-    margin-right: 5px; /* Espaço padrão à direita do checkbox */
-    vertical-align: middle; /* Alinhamento vertical padrão */
+    margin-right: 8px;
+    vertical-align: middle;
+    flex-shrink: 0; /* Não permite que o checkbox encolha */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 input[type="checkbox"]:checked {
-    background-color: #E4002B; /* Cor de fundo quando marcado */
+    background-color: #E4002B;
+    border-color: #E4002B;
 }
 
 input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: 6px; /* Ajusta a posição do checkmark */
+    top: 2px; /* Ajusta a posição do checkmark */
     width: 6px;
-    height: 10px;
+    height: 12px; /* Altura maior para o checkmark */
     border: solid white;
     border-width: 0 3px 3px 0;
-    transform: translate(-50%, -50%) rotate(45deg);
+    transform: rotate(45deg);
 }
 
-/* Animações */
+/* Estilo para labels de checkbox para garantir alinhamento */
+.form label input[type="checkbox"] {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.form label {
+    display: flex; /* Torna o label um flex container */
+    align-items: center; /* Alinha o texto e o checkbox verticalmente */
+    cursor: pointer; /* Indica que o label é clicável */
+}
+
+
+/* Animações (Mantidas, mas podem ser ajustadas se necessário) */
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -347,28 +400,107 @@ input[type="checkbox"]:checked::after {
 
 @keyframes slideInDown {
     from {
-        transform: translateY(-50px);
+        transform: translateY(-30px); /* Ajuste para um slide mais sutil */
         opacity: 0;
     }
-
     to {
         transform: translateY(0);
         opacity: 1;
     }
 }
 
-/* Media query para telas menores que 768px (tablets e smartphones) */
-@media (max-width: 768px) {
+/* Media Queries para Responsividade */
+@media (max-width: 900px) {
     .container {
         flex-direction: column;
+        width: 100%; /* Ocupa toda a largura em telas menores */
+        border-radius: 0; /* Remove bordas arredondadas em telas pequenas para usar toda a tela */
+        box-shadow: none; /* Remove sombra em telas menores */
+    }
+
+    body {
+        padding: 0; /* Remove padding do body em telas pequenas */
+        align-items: flex-start;
     }
 
     .sidebar {
         width: 100%;
-        order: 1;
+        padding: 20px 15px; /* Menos padding na sidebar */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra na parte inferior da sidebar */
+        border-radius: 0;
+        min-height: auto; /* Altura mínima automática */
+    }
+
+    .sidebar h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    .sidebar a {
+        padding: 10px 15px;
+        font-size: 0.95em;
     }
 
     .content {
-        order: 2;
+        padding: 20px 15px; /* Menos padding no conteúdo */
+    }
+
+    h1 {
+        font-size: 2em; /* Título principal menor */
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    .form fieldset {
+        padding: 20px 15px; /* Menos padding no fieldset */
+    }
+
+    .buttons {
+        flex-direction: column; /* Botões empilhados verticalmente */
+        gap: 15px;
+    }
+
+    button {
+        width: 100%; /* Botões ocupam a largura total */
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    .resultado {
+        padding: 20px 15px;
+    }
+
+    #texto-gerado {
+        font-size: 1em;
+        padding: 10px;
+    }
+}
+
+/* Ajustes para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .content {
+        padding: 15px 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .form input,
+    .form textarea,
+    .form select {
+        padding: 10px;
+        font-size: 0.95em;
+    }
+
+    .teste {
+        flex-direction: column; /* Empilha input e botão de copiar CPF/CNPJ */
+        align-items: stretch;
+    }
+
+    .teste button {
+        width: 100%;
+        margin-top: 10px; /* Espaço entre o input e o botão */
     }
 }
