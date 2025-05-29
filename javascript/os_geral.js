@@ -272,6 +272,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (atendimentoInput) atendimentoInput.dispatchEvent(new Event('change'));
     if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
     if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-    gerarTexto(); // Gera o texto inicial
+    gerarTexto(); // Gera o texto inicial-
 
 });

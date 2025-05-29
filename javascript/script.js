@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         valor = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
         if (valor.length <= 11) { // CPF
             valor = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
-        } else { // CNPJ
+        } else { // CNPJ-
             valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
         }
         return valor;

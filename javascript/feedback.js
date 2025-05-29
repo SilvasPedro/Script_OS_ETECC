@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 3. Formatar e copiar script
+    // 3. Formatar e copiar script-
     copiarButton.addEventListener('click', function() {
         const nomeCliente = nomeClienteInput.value;
         const telefoneCliente = telefoneClienteInput.value;

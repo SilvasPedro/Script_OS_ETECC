@@ -306,6 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (avaliacaoTecnicaSelect) avaliacaoTecnicaSelect.dispatchEvent(new Event('change')); // Garante estado inicial da avaliação
     if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
     if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-    gerarTexto(); // Gera o texto inicial
+    gerarTexto(); // Gera o texto inicial-
 
 });

@@ -172,5 +172,5 @@ document.addEventListener('DOMContentLoaded', function() {
     pontoAdicionalInput.dispatchEvent(new Event('change')); // Para definir o estado inicial do alerta de ponto adicional
     autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change')); // Para definir o estado inicial do campo de autorização
     autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change')); // Para garantir que "Não" não exiba o campo
-    gerarTexto(); // Gera o texto inicial
+    gerarTexto(); // Gera o texto inicial-
 });
