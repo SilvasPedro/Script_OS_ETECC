@@ -61,11 +61,13 @@
                     <legend>INFORMAÇÕES DO CLIENTE</legend>
                     <label>Roteador:</label>
                     <select id="roteador">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>
                     <label>ONU:</label>
-                    <select id="onu">
+                    <select id="onu" required>
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>

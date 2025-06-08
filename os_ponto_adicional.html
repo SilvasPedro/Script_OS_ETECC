@@ -54,21 +54,24 @@
                     <input type="tel" id="telefone">
                     <label for="plano">Plano atual:</label>
                     <select id="plano">
-                        <option value="1 Mbps">1 Mbps</option>
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
+                        <!-- <option value="1 Mbps">1 Mbps</option> -->
                         <option value="10 Mbps">10 Mbps</option>
                         <option value="100 Mbps">100 Mbps</option>
-                        <option value="240 Mbps">240 Mbps</option>
+                        <!-- <option value="240 Mbps">240 Mbps</option> -->
                         <option value="600 Mbps">600 Mbps</option>
                         <option value="800 Mbps">800 Mbps</option>
                         <option value="1000 Mbps">1000 Mbps</option>
                     </select>
                     <label>Roteador:</label>
                     <select id="roteador">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>
                     <label>ONU:</label>
                     <select id="onu">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>
@@ -85,8 +88,9 @@
                     </select>
                     <label>Roteador do ponto adicional:</label>
                     <select id="roteador_adicional">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                         <option value="comodato">Comodato</option>
-                        <option value="cliente">Do Cliente</option>
+                        <option value="cliente">Compra</option>
                     </select>
 
                     <label>
@@ -103,7 +107,7 @@
                         <label>
                             <input type="checkbox" id="por_metro" class="checkbox_style"> Por metro
                         </label>
-                        <label for="vencimento_taxa">Vencimento da taxa/proporcional:</label>
+                        <label for="vencimento_taxa">Vencimento do custo gerado:</label>
                         <input type="date" id="vencimento_taxa">
                     </div>
                 </fieldset>
@@ -122,8 +126,10 @@
                     <legend>AUTORIZAÇÃO POR EXCEÇÃO</legend>
                     <label>Essa ordem de serviço foi autorizada com exceção pela torre de serviços?</label>
                     <div class="teste">
-                        <input type="checkbox" id="autorizada_excecao_sim"> <label for="autorizada_excecao_sim">Sim</label>
-                        <input type="checkbox" id="autorizada_excecao_nao"> <label for="autorizada_excecao_nao">Não</label>
+                        <input type="checkbox" id="autorizada_excecao_sim"> <label
+                            for="autorizada_excecao_sim">Sim</label>
+                        <input type="checkbox" id="autorizada_excecao_nao"> <label
+                            for="autorizada_excecao_nao">Não</label>
                     </div>
                     <div id="campo_autorizador" style="display: none;">
                         <label for="nome_autorizador">Nome de quem autorizou:</label>
@@ -133,7 +139,8 @@
                 <fieldset>
                     <legend>NOME DO ATENDENTE</legend>
                     <label for="operador">Atendente:</label>
-                    <input type="text" name="nome_do_operador" id="operador" value="" placeholder="Digite seu nome aqui...">
+                    <input type="text" name="nome_do_operador" id="operador" value=""
+                        placeholder="Digite seu nome aqui...">
                 </fieldset>
             </div>
             <div class="buttons">
