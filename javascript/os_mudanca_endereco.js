@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const campoAutorizadorDiv = document.getElementById('campo_autorizador');
     const nomeAutorizadorInput = document.getElementById('nome_autorizador');
 
+    // Novo campo para ETECC Resolve
+    const interesseServicoMudancaSelect = document.getElementById('interesse_servico_mudanca');
+
 
     // Função para formatar a data
     function formatarData(data) {
@@ -63,6 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const autorizadaExcecaoNao = autorizadaExcecaoNaoCheckbox.checked;
         const nomeAutorizador = nomeAutorizadorInput.value;
 
+        // Valor do novo campo ETECC Resolve
+        const interesseServicoMudanca = interesseServicoMudancaSelect.value;
+
+
         const agendamentoDataFormatada = formatarData(agendamentoData);
         const clienteDesdeFormatada = formatarData(clienteDesde);
 
@@ -79,6 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pontoAdicional === 'SIM') {
             texto += '\nCLIENTE CIENTE QUE PONTO ADICIONAL SERÁ AVALIADO NA NOVA RESIDÊNCIA.';
         }
+
+        // Adiciona a informação do campo ETECC Resolve
+        texto += `\n\n-- ETECC RESOLVE --\n` +
+                 `> CLIENTE APRESENTOU INTERESSE NO SERVIÇO DE MUDANÇA? [${interesseServicoMudanca.toUpperCase()}]`;
 
         // Adiciona a nova seção para Autorização por Exceção
         texto += `\n\n-- AUTORIZAÇÃO POR EXCEÇÃO --\n` +
@@ -113,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         textoGerado.textContent = '';
         campoAutorizadorDiv.style.display = 'none'; // Garante que o campo do autorizador esteja oculto
+        if (interesseServicoMudancaSelect) interesseServicoMudancaSelect.selectedIndex = 0; // Reseta o novo dropdown
     });
 
     // Event listeners para os campos de agendamento e outros
@@ -159,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
         gerarTexto(); // Atualiza o texto gerado
     });
 
-    // Adiciona event listeners para os outros campos para regenerar o texto
+    // Adiciona event listeners para o novo dropdown e outros campos para regenerar o texto
     document.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('change', gerarTexto);
         if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
@@ -172,5 +184,5 @@ document.addEventListener('DOMContentLoaded', function() {
     pontoAdicionalInput.dispatchEvent(new Event('change')); // Para definir o estado inicial do alerta de ponto adicional
     autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change')); // Para definir o estado inicial do campo de autorização
     autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change')); // Para garantir que "Não" não exiba o campo
-    gerarTexto(); // Gera o texto inicial-
+    gerarTexto(); // Gera o texto inicial
 });
