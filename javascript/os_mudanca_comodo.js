@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Custo
     const cienteCustoSimCheckbox = document.getElementById('ciente_custo_sim');
     const cienteCustoNaoCheckbox = document.getElementById('ciente_custo_nao');
+    const alertaCustoNaoP = document.getElementById('alerta_custo_nao'); // New element reference
 
     // Atendente
     const operadorInput = document.getElementById('operador');
@@ -67,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const nomeAutorizador = nomeAutorizadorInput.value;
 
         const agendamentoDataFormatada = formatarData(agendamentoData);
-        // const clienteDesdeFormatada = formatarData(clienteDesde); // Not needed for text input, but kept for consistency if needed
 
         let agendamentoCompleto = agendamentoDataFormatada;
         if (agendamentoPeriodo) {
@@ -117,10 +117,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Ciente Custo Checkbox
-    if (cienteCustoSimCheckbox && cienteCustoNaoCheckbox) {
+    if (cienteCustoSimCheckbox && cienteCustoNaoCheckbox && alertaCustoNaoP) {
         cienteCustoSimCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 cienteCustoNaoCheckbox.checked = false;
+                alertaCustoNaoP.style.display = 'none'; // Hide alert if 'Sim' is checked
             }
             gerarTexto();
         });
@@ -128,11 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         cienteCustoNaoCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 cienteCustoSimCheckbox.checked = false;
+                alertaCustoNaoP.style.display = 'block'; // Show alert if 'Não' is checked
+            } else {
+                alertaCustoNaoP.style.display = 'none'; // Hide alert if 'Não' is unchecked
             }
             gerarTexto();
         });
     }
-
 
     // Autorização por Exceção
     if (autorizadaExcecaoSimCheckbox && autorizadaExcecaoNaoCheckbox && campoAutorizadorDiv && nomeAutorizadorInput) {
@@ -156,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
             gerarTexto();
         });
     }
-
 
     // Copiar e Limpar Botões
     if (copiarButton) {
@@ -196,16 +198,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (notificacaoHorarioP) notificacaoHorarioP.style.display = 'none';
             if (agendamentoHorarioInput) agendamentoHorarioInput.style.display = 'none';
             if (labelAgendamentoHorario) labelAgendamentoHorario.style.display = 'none';
+            if (alertaCustoNaoP) alertaCustoNaoP.style.display = 'none'; // Ensure alert is hidden on clear
             if (campoAutorizadorDiv) campoAutorizadorDiv.style.display = 'none';
 
             // Dispatch change events to ensure correct initial state after clearing
             if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
-            if (cienteCustoSimCheckbox) cienteCustoSimCheckbox.dispatchEvent(new Event('change')); // Trigger to clear
-            if (cienteCustoNaoCheckbox) cienteCustoNaoCheckbox.dispatchEvent(new Event('change')); // Trigger to clear
+            if (cienteCustoSimCheckbox) cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
+            if (cienteCustoNaoCheckbox) cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
             if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
             if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-
-            // gerarTexto(); // Optional: to show empty/default text
         });
     }
 
