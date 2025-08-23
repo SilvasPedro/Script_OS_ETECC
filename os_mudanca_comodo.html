@@ -51,11 +51,15 @@
                     <legend>INFORMAÇÕES DO CLIENTE</legend>
                     <label>Roteador:</label>
                     <select id="roteador">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
+
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>
                     <label>ONU:</label>
                     <select id="onu">
+                        <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
+
                         <option value="comodato">Comodato</option>
                         <option value="compra">Compra</option>
                     </select>
@@ -85,7 +89,7 @@
 
                 <fieldset>
                     <legend>NOME DO ATENDENTE</legend>
-                    <label for="operador">Atendente:</label>
+                    <label for="operador">Operador/Atendente:</label>
                     <input type="text" name="nome_do_operador" id="operador" value=""
                         placeholder="Digite seu nome aqui...">
                 </fieldset>
@@ -107,7 +111,7 @@
                 <button id="copiar">Copiar Script</button>
                 <button id="limpar">Limpar Formulário</button>
             </div>
-            <div class="resultado">
+            <div class="resultado hidden">
                 <p id="texto-gerado"></p>
             </div>
         </main>

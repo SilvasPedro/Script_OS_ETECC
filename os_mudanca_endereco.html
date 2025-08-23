@@ -34,7 +34,7 @@
                 </select>
 
                 <label for="solicitacao">Solicitação:</label>
-                <input type="text" id="solicitacao" value="MUDANÇA DE ENDEREÇO" readonly>
+                <input type="text" id="solicitacao" value="MUDANÇA DE ENDEREÇO">
 
                 <label for="agendamento_data">Data de Agendamento:</label>
                 <input type="date" id="agendamento_data">
@@ -78,12 +78,14 @@
 
                 <label for="comprovante_endereco">Comprovante de Endereço:</label>
                 <select id="comprovante_endereco">
+                    <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                     <option value="Anexado">Anexado</option>
                     <option value="Não possui">Não possui</option>
                     <option value="Não enviado">Não enviado</option>
                 </select>
                 <label>Cliente tem ponto adicional?</label>
                 <select id="ponto_adicional">
+                    <option value="Não informado" selected disabled hidden>Selecione uma opção</option>
                     <option value="nao">Não</option>
                     <option value="sim">Sim</option>
                 </select>
@@ -94,39 +96,42 @@
                 <fieldset>
                     <legend>Informações Adicionais</legend>
                     <fieldset>
-                    <legend>NOME DO ATENDENTE</legend>
-                    <label for="operador">Atendente:</label>
-                    <input type="text" name="nome_do_operador" id="operador" value="" placeholder="Digite seu nome aqui...">
-                </fieldset><br>
-                <fieldset>
-                    <legend>ETECC Resolve</legend>
-                    <label for="interesse_servico_mudanca">Cliente aceitou serviço de mudança?</label>
-                    <select id="interesse_servico_mudanca" name="interesse_servico_mudanca">
-                        <option value="Não oferecido">Não oferecido</option>
-                        <option value="Aceitou">Aceitou</option>
-                        <option value="Não aceitou">Não aceitou</option>
-                        <option value="Já contratou outro serviço">Já contratou outro serviço</option>
-                        <option value="Já se mudou">Já se mudou</option>
-                    </select>
-                </fieldset><br>
-                <fieldset>
-                    <legend>AUTORIZAÇÃO POR EXCEÇÃO</legend>
-                    <label>Essa ordem de serviço foi autorizada com exceção pela torre de serviços?</label>
-                    <div class="teste">
-                        <input type="checkbox" id="autorizada_excecao_sim"> <label for="autorizada_excecao_sim">Sim</label>
-                        <input type="checkbox" id="autorizada_excecao_nao"> <label for="autorizada_excecao_nao">Não</label>
-                    </div>
-                    <div id="campo_autorizador" style="display: none;">
-                        <label for="nome_autorizador">Nome de quem autorizou:</label>
-                        <input type="text" id="nome_autorizador" placeholder="Nome do autorizador">
-                    </div>
-                </fieldset>
+                        <legend>NOME DO ATENDENTE</legend>
+                        <label for="operador">Operador/Atendente:</label>
+                        <input type="text" name="nome_do_operador" id="operador" value=""
+                            placeholder="Digite seu nome aqui...">
+                    </fieldset><br>
+                    <fieldset>
+                        <legend>ETECC Resolve</legend>
+                        <label for="interesse_servico_mudanca">Cliente aceitou serviço de mudança?</label>
+                        <select id="interesse_servico_mudanca" name="interesse_servico_mudanca">
+                            <option value="Não oferecido">Não oferecido</option>
+                            <option value="Aceitou">Aceitou</option>
+                            <option value="Não aceitou">Não aceitou</option>
+                            <option value="Já contratou outro serviço">Já contratou outro serviço</option>
+                            <option value="Já se mudou">Já se mudou</option>
+                        </select>
+                    </fieldset><br>
+                    <fieldset>
+                        <legend>AUTORIZAÇÃO POR EXCEÇÃO</legend>
+                        <label>Essa ordem de serviço foi autorizada com exceção pela torre de serviços?</label>
+                        <div class="teste">
+                            <input type="checkbox" id="autorizada_excecao_sim"> <label
+                                for="autorizada_excecao_sim">Sim</label>
+                            <input type="checkbox" id="autorizada_excecao_nao"> <label
+                                for="autorizada_excecao_nao">Não</label>
+                        </div>
+                        <div id="campo_autorizador" style="display: none;">
+                            <label for="nome_autorizador">Nome de quem autorizou:</label>
+                            <input type="text" id="nome_autorizador" placeholder="Nome do autorizador">
+                        </div>
+                    </fieldset>
                 </fieldset>
                 <div class="buttons">
                     <button id="copiar">Copiar Script</button>
                     <button id="limpar">Limpar Formulário</button>
                 </div>
-                <div class="resultado">
+                <div class="resultado hidden">
                     <p id="texto-gerado"></p>
                 </div>
         </main>

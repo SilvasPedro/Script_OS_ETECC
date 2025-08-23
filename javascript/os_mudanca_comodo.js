@@ -1,41 +1,61 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Element References ---
-    // Agendamento
-    const agendamentoDataInput = document.getElementById('agendamento_data');
+    // --- Referências dos Elementos ---
     const agendamentoPeriodoInput = document.getElementById('agendamento_periodo');
     const agendamentoHorarioInput = document.getElementById('agendamento_horario');
     const labelAgendamentoHorario = document.getElementById('label_agendamento_horario');
     const notificacaoHorarioP = document.getElementById('notificacao-horario');
-
-    // Informações do Cliente
-    const roteadorInput = document.getElementById('roteador');
-    const onuInput = document.getElementById('onu');
-    const contatoInput = document.getElementById('contato');
-    const clienteDesdeInput = document.getElementById('cliente_desde');
-
-    // Detalhes O.S
-    const solicitacaoInput = document.getElementById('solicitacao');
-
-    // Custo
     const cienteCustoSimCheckbox = document.getElementById('ciente_custo_sim');
     const cienteCustoNaoCheckbox = document.getElementById('ciente_custo_nao');
-    const alertaCustoNaoP = document.getElementById('alerta_custo_nao'); // New element reference
-
-    // Atendente
-    const operadorInput = document.getElementById('operador');
-
-    // Autorização por Exceção
+    const alertaCustoNaoP = document.getElementById('alerta_custo_nao');
     const autorizadaExcecaoSimCheckbox = document.getElementById('autorizada_excecao_sim');
     const autorizadaExcecaoNaoCheckbox = document.getElementById('autorizada_excecao_nao');
     const campoAutorizadorDiv = document.getElementById('campo_autorizador');
-    const nomeAutorizadorInput = document.getElementById('nome_autorizador');
-
-    // Botões e Resultado
     const copiarButton = document.getElementById('copiar');
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
+    const operadorInput = document.getElementById('operador');
 
-    // --- Helper Functions ---
+    // Agrupa todos os campos que precisam ser salvos
+    const formFieldsToSave = document.querySelectorAll('.form input, .form textarea, .form select');
+
+    // --- Funções de Local Storage ---
+
+    function saveData() {
+        formFieldsToSave.forEach(field => {
+            if (field && field.id) {
+                if (field.type === 'checkbox') {
+                    localStorage.setItem(field.id, field.checked);
+                } else {
+                    localStorage.setItem(field.id, field.value);
+                }
+            }
+        });
+    }
+
+    function loadData() {
+        formFieldsToSave.forEach(field => {
+            if (field && field.id) {
+                const savedValue = localStorage.getItem(field.id);
+                if (savedValue !== null) {
+                    if (field.type === 'checkbox') {
+                        field.checked = (savedValue === 'true');
+                    } else {
+                        field.value = savedValue;
+                    }
+                }
+            }
+        });
+        // Dispara eventos para a UI refletir os dados carregados
+        agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+        cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
+        cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
+        autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+        autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+        gerarTexto();
+    }
+
+    // --- Funções Auxiliares e Principais ---
+
     function formatarData(dataString) {
         if (!dataString) return '';
         const parts = dataString.split('-');
@@ -50,179 +70,126 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function gerarTexto() {
-        const agendamentoData = agendamentoDataInput.value;
+        const agendamentoData = formatarData(document.getElementById('agendamento_data').value);
         const agendamentoPeriodo = agendamentoPeriodoInput.value;
         const agendamentoHorario = agendamentoHorarioInput.value;
-        const roteador = roteadorInput.value;
-        const onu = onuInput.value;
-        const contato = contatoInput.value;
-        const clienteDesde = clienteDesdeInput.value;
-        const solicitacao = solicitacaoInput.value;
-        const operador = operadorInput.value;
-
-        const cienteCustoSim = cienteCustoSimCheckbox.checked;
-        const cienteCustoNao = cienteCustoNaoCheckbox.checked;
-
-        const autorizadaExcecaoSim = autorizadaExcecaoSimCheckbox.checked;
-        const autorizadaExcecaoNao = autorizadaExcecaoNaoCheckbox.checked;
-        const nomeAutorizador = nomeAutorizadorInput.value;
-
-        const agendamentoDataFormatada = formatarData(agendamentoData);
-
-        let agendamentoCompleto = agendamentoDataFormatada;
-        if (agendamentoPeriodo) {
+        const roteador = document.getElementById('roteador').value;
+        const onu = document.getElementById('onu').value;
+        const contato = document.getElementById('contato').value;
+        const clienteDesde = document.getElementById('cliente_desde').value;
+        const solicitacao = document.getElementById('solicitacao').value;
+        const nomeAutorizador = document.getElementById('nome_autorizador').value;
+        
+        let agendamentoCompleto = agendamentoData;
+        if (agendamentoPeriodo && agendamentoPeriodo !== "Horário Comercial") {
             agendamentoCompleto += ' - ' + agendamentoPeriodo.charAt(0).toUpperCase() + agendamentoPeriodo.slice(1);
             if (agendamentoPeriodo === 'apos' && agendamentoHorario) {
                 agendamentoCompleto += ` (${agendamentoHorario})`;
             }
+        } else if (agendamentoPeriodo === "Horário Comercial") {
+             agendamentoCompleto += ' - ' + agendamentoPeriodo;
         }
 
-        let texto = `OPERADOR: ${operador}\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesde}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}`;
-
-        texto += `\n\n-- CUSTO --\n> CLIENTE CIENTE QUE PODERÁ SER GERADO CUSTO? [${cienteCustoSim ? 'SIM' : (cienteCustoNao ? 'NÃO' : '')}]`;
-
-        texto += `\n\n-- AUTORIZAÇÃO POR EXCEÇÃO --\n` +
-                 `> O.S AUTORIZADA COM EXCEÇÃO PELA TORRE DE SERVIÇOS? [${autorizadaExcecaoSim ? 'SIM' : (autorizadaExcecaoNao ? 'NÃO' : '')}]`;
-
-        if (autorizadaExcecaoSim) {
+        let texto = `OPERADOR: ${operadorInput.value}\n\nAGENDAMENTO: ${agendamentoCompleto}\n\n-- INFORMAÇÕES DO CLIENTE --\n> ROTEADOR: [${roteador.toUpperCase()}]\n> ONU: [${onu.toUpperCase()}]\n> CONTATO: ${contato}\n> CLIENTE DESDE: ${clienteDesde}\n\n-- DETALHES O.S --\n> SOLICITAÇÃO: ${solicitacao}`;
+        texto += `\n\n-- CUSTO --\n> CLIENTE CIENTE QUE PODERÁ SER GERADO CUSTO? [${cienteCustoSimCheckbox.checked ? 'SIM' : 'NÃO'}]`;
+        texto += `\n\n-- AUTORIZAÇÃO POR EXCEÇÃO --\n> O.S AUTORIZADA COM EXCEÇÃO PELA TORRE DE SERVIÇOS? [${autorizadaExcecaoSimCheckbox.checked ? 'SIM' : 'NÃO'}]`;
+        if (autorizadaExcecaoSimCheckbox.checked) {
             texto += `\n> NOME DE QUEM AUTORIZOU: ${nomeAutorizador}`;
         }
-
         textoGerado.textContent = texto;
     }
 
     // --- Event Listeners ---
 
-    // Agendamento Periodo and Horario
-    if (agendamentoPeriodoInput && notificacaoHorarioP && agendamentoHorarioInput && labelAgendamentoHorario) {
-        agendamentoPeriodoInput.addEventListener('change', function () {
-            const periodoSelecionado = this.value;
+    agendamentoPeriodoInput.addEventListener('change', function () {
+        const isApos = this.value === 'apos';
+        agendamentoHorarioInput.style.display = isApos ? 'inline-block' : 'none';
+        labelAgendamentoHorario.style.display = isApos ? 'inline-block' : 'none';
+        notificacaoHorarioP.style.display = (this.value === 'ultima' || isApos) ? 'block' : 'none';
+    });
 
-            if (periodoSelecionado === 'apos') {
-                agendamentoHorarioInput.style.display = 'inline-block';
-                labelAgendamentoHorario.style.display = 'inline-block';
-            } else {
-                agendamentoHorarioInput.style.display = 'none';
-                labelAgendamentoHorario.style.display = 'none';
-                agendamentoHorarioInput.value = '';
-            }
-
-            if (periodoSelecionado === 'ultima' || periodoSelecionado === 'apos') {
-                notificacaoHorarioP.style.display = 'block';
-            } else {
-                notificacaoHorarioP.style.display = 'none';
-            }
-            gerarTexto();
-        });
-    }
-
-    // Ciente Custo Checkbox
-    if (cienteCustoSimCheckbox && cienteCustoNaoCheckbox && alertaCustoNaoP) {
-        cienteCustoSimCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                cienteCustoNaoCheckbox.checked = false;
-                alertaCustoNaoP.style.display = 'none'; // Hide alert if 'Sim' is checked
-            }
-            gerarTexto();
-        });
-
-        cienteCustoNaoCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                cienteCustoSimCheckbox.checked = false;
-                alertaCustoNaoP.style.display = 'block'; // Show alert if 'Não' is checked
-            } else {
-                alertaCustoNaoP.style.display = 'none'; // Hide alert if 'Não' is unchecked
-            }
-            gerarTexto();
-        });
-    }
-
-    // Autorização por Exceção
-    if (autorizadaExcecaoSimCheckbox && autorizadaExcecaoNaoCheckbox && campoAutorizadorDiv && nomeAutorizadorInput) {
-        autorizadaExcecaoSimCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                autorizadaExcecaoNaoCheckbox.checked = false;
-                campoAutorizadorDiv.style.display = 'block';
-            } else {
-                campoAutorizadorDiv.style.display = 'none';
-                nomeAutorizadorInput.value = '';
-            }
-            gerarTexto();
-        });
-
-        autorizadaExcecaoNaoCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                autorizadaExcecaoSimCheckbox.checked = false;
-                campoAutorizadorDiv.style.display = 'none';
-                nomeAutorizadorInput.value = '';
-            }
-            gerarTexto();
-        });
-    }
-
-    // Copiar e Limpar Botões
-    if (copiarButton) {
-        copiarButton.addEventListener('click', function () {
-            gerarTexto();
-            const texto = textoGerado.textContent;
-            if (texto) {
-                navigator.clipboard.writeText(texto).then(() => {
-                    alert('Texto copiado para a área de transferência!');
-                }, (err) => {
-                    console.error('Erro ao copiar texto: ', err);
-                    alert('Erro ao copiar texto. Verifique as permissões do navegador.');
-                });
-            } else {
-                alert('Nada para copiar.');
-            }
-        });
-    }
-
-    if (limparButton) {
-        limparButton.addEventListener('click', function () {
-            document.querySelectorAll('.content .form input[type="text"], .content .form input[type="date"], .content .form input[type="time"], .content .form input[type="tel"], .content .form textarea, .content .form select').forEach(el => {
-                if (el.tagName === 'SELECT') {
-                    el.selectedIndex = 0;
-                } else {
-                    el.value = '';
-                }
-            });
-
-            document.querySelectorAll('.content .form input[type="checkbox"]').forEach(el => {
-                el.checked = false;
-            });
-
-            textoGerado.textContent = '';
-
-            // Reset conditional displays
-            if (notificacaoHorarioP) notificacaoHorarioP.style.display = 'none';
-            if (agendamentoHorarioInput) agendamentoHorarioInput.style.display = 'none';
-            if (labelAgendamentoHorario) labelAgendamentoHorario.style.display = 'none';
-            if (alertaCustoNaoP) alertaCustoNaoP.style.display = 'none'; // Ensure alert is hidden on clear
-            if (campoAutorizadorDiv) campoAutorizadorDiv.style.display = 'none';
-
-            // Dispatch change events to ensure correct initial state after clearing
-            if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
-            if (cienteCustoSimCheckbox) cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
-            if (cienteCustoNaoCheckbox) cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
-            if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
-            if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-        });
-    }
-
-    // Dynamic Text Update
-    document.querySelectorAll('.content .form input, .content .form textarea, .content .form select').forEach(input => {
-        input.addEventListener('change', gerarTexto);
-        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
-            input.addEventListener('input', gerarTexto);
+    cienteCustoSimCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            cienteCustoNaoCheckbox.checked = false;
+            alertaCustoNaoP.style.display = 'none';
         }
     });
 
-    // Initial State Setup
-    if (agendamentoPeriodoInput) agendamentoPeriodoInput.dispatchEvent(new Event('change'));
-    if (cienteCustoSimCheckbox) cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
-    if (cienteCustoNaoCheckbox) cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
-    if (autorizadaExcecaoSimCheckbox) autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
-    if (autorizadaExcecaoNaoCheckbox) autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-    gerarTexto();
+    cienteCustoNaoCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            cienteCustoSimCheckbox.checked = false;
+            alertaCustoNaoP.style.display = 'block';
+        } else {
+            alertaCustoNaoP.style.display = 'none';
+        }
+    });
+
+    autorizadaExcecaoSimCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            autorizadaExcecaoNaoCheckbox.checked = false;
+            campoAutorizadorDiv.style.display = 'block';
+        } else {
+            campoAutorizadorDiv.style.display = 'none';
+        }
+    });
+
+    autorizadaExcecaoNaoCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            autorizadaExcecaoSimCheckbox.checked = false;
+            campoAutorizadorDiv.style.display = 'none';
+        }
+    });
+
+    copiarButton.addEventListener('click', function () {
+        gerarTexto();
+        if (textoGerado.textContent.trim()) {
+            navigator.clipboard.writeText(textoGerado.textContent).then(() => {
+                alert('Texto copiado para a área de transferência!');
+            });
+        } else {
+            alert('Nada para copiar.');
+        }
+    });
+
+    limparButton.addEventListener('click', function () {
+        formFieldsToSave.forEach(field => {
+            if (field.id !== 'operador') {
+                if (field.type === 'checkbox') {
+                    field.checked = false;
+                } else if (field.tagName === 'SELECT') {
+                    field.selectedIndex = 0;
+                } else {
+                    field.value = '';
+                }
+                localStorage.removeItem(field.id);
+            }
+        });
+        // Dispara eventos para resetar a UI e o texto
+        agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+        cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
+        cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
+        autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+        autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+        gerarTexto();
+    });
+
+    // Adiciona listeners para salvar e gerar texto em tempo real
+    formFieldsToSave.forEach(field => {
+        field.addEventListener('input', () => {
+            saveData();
+            gerarTexto();
+        });
+        field.addEventListener('change', () => { // Para selects e checkboxes
+            saveData();
+            gerarTexto();
+        });
+    });
+
+    // --- INICIALIZAÇÃO E CORREÇÃO ---
+    
+    // **NOVA LINHA:** Salva os dados uma última vez antes de sair da página.
+    window.addEventListener('pagehide', saveData);
+
+    // Carrega os dados salvos assim que a página é aberta
+    loadData();
 });

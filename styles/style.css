@@ -13,6 +13,10 @@ body {
     box-sizing: border-box; /* Garante que padding não adicione largura extra */
 }
 
+.hidden {
+    display: none;
+}
+
 .container {
     width: 100%;
     max-width: 1200px;
