@@ -345,6 +345,11 @@ button:active {
     border-radius: 4px;
 }
 
+#limpar {
+    background-color:#ccc;
+    color: #060C12;
+}
+
 
 /* Checkbox styling (Mais profissional e menos invasivo) */
 input[type="checkbox"] {

@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Funções de Local Storage ---
 
-    /**
-     * Salva o valor de todos os campos do formulário no localStorage.
-     */
     function saveData() {
         formFieldsToSave.forEach(field => {
             if (field && field.id) {
@@ -23,9 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /**
-     * Carrega os valores salvos do localStorage para os campos do formulário.
-     */
     function loadData() {
         formFieldsToSave.forEach(field => {
             if (field && field.id) {
@@ -35,20 +29,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        gerarTexto(); // Atualiza a área de texto com os dados carregados
+        gerarTexto();
     }
 
     // --- Funções Principais ---
 
-    /**
-     * Gera o texto final do script com base nos dados do formulário.
-     */
     function gerarTexto() {
         const problema = problemaInput.value;
         const procedimentos = procedimentosInput.value;
         const solucao = solucaoInput.value;
 
-        // Gera o texto apenas se algum campo estiver preenchido
         if (problema || procedimentos || solucao) {
             textoGerado.textContent = `Problema relatado: ${problema}\n\nProcedimentos realizados:\n${procedimentos}\n\nSolução: ${solucao}`;
         } else {
@@ -59,9 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Event Listeners ---
 
-    // Botão para copiar o script gerado
     copiarButton.addEventListener('click', function() {
-        gerarTexto(); // Garante que o texto está atualizado
+        gerarTexto();
         const texto = textoGerado.textContent;
         if (texto.trim() !== '' && texto !== 'Preencha todos os campos.') {
             navigator.clipboard.writeText(texto).then(() => {
@@ -72,18 +61,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Botão para limpar o formulário
     limparButton.addEventListener('click', function() {
-        formFieldsToSave.forEach(field => {
-            if (field) {
-                field.value = '';
-                localStorage.removeItem(field.id);
-            }
-        });
-        gerarTexto(); // Limpa a área de texto gerado
+        if (confirm("Tem certeza que deseja limpar o formulário?")) {
+            formFieldsToSave.forEach(field => {
+                if (field) {
+                    field.value = '';
+                    localStorage.removeItem(field.id);
+                }
+            });
+            gerarTexto();
+        }
     });
 
-    // Salva e atualiza o script em tempo real a cada alteração nos campos
     formFieldsToSave.forEach(field => {
         if (field) {
             field.addEventListener('input', () => {
@@ -94,6 +83,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- Inicialização ---
-    // Carrega os dados salvos assim que a página é aberta
     loadData();
 });

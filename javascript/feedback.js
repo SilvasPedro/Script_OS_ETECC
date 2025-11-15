@@ -56,14 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        // Dispara o evento 'change' para garantir que a UI seja atualizada
-        naoAceitouAvaliacaoCheckbox.dispatchEvent(new Event('change'));
+        // Dispara o evento para garantir que a UI seja atualizada e o texto gerado
+        if (naoAceitouAvaliacaoCheckbox.checked) {
+            criarCampoMotivo();
+        }
+        gerarTexto();
     }
 
-    // --- Funções de UI ---
+    // --- Funções de UI e Geração de Texto ---
 
     function criarCampoMotivo() {
-        // Evita criar o campo se ele já existir
         if (document.getElementById('motivo_recusa_fieldset')) {
             return;
         }
@@ -75,8 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const motivoRecusaTextarea = document.createElement('textarea');
         motivoRecusaTextarea.id = 'motivo_da_recusa';
         motivoRecusaTextarea.name = 'motivo_da_recusa';
-        // Adiciona listener para salvar em tempo real
-        motivoRecusaTextarea.addEventListener('input', saveData);
+        
+        // Listener para salvar e atualizar texto em tempo real
+        motivoRecusaTextarea.addEventListener('input', () => {
+            saveData();
+            gerarTexto();
+        });
+        
         // Carrega o valor salvo
         motivoRecusaTextarea.value = localStorage.getItem('motivo_da_recusa') || '';
 
@@ -93,33 +100,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- Event Listeners ---
-
-    aceitouAvaliacaoCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            naoAceitouAvaliacaoCheckbox.checked = false;
-            removerCampoMotivo();
-        }
-        saveData();
-    });
-
-    naoAceitouAvaliacaoCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            aceitouAvaliacaoCheckbox.checked = false;
-            criarCampoMotivo();
-        } else {
-            removerCampoMotivo();
-        }
-        saveData();
-    });
-
-    copiarButton.addEventListener('click', function() {
+    function gerarTexto() {
         const motivoTextarea = document.getElementById('motivo_da_recusa');
         let motivoRecusa = '';
         if (naoAceitouAvaliacaoCheckbox.checked && motivoTextarea) {
             motivoRecusa = `\n> Motivo da recusa: ${motivoTextarea.value}`;
         }
-        
+
         const scriptFormatado =
 `- INFORMAÇÕES DO CLIENTE -
 > Nome do cliente: ${nomeClienteInput.value}
@@ -138,7 +125,34 @@ document.addEventListener('DOMContentLoaded', function() {
 > Atendente responsável: ${atendenteResponsavelInput.value}
 > Data do atendimento: ${dataAtendimentoInput.value}`;
 
-        navigator.clipboard.writeText(scriptFormatado.trim())
+        textoGeradoParagrafo.textContent = scriptFormatado.trim();
+    }
+
+    // --- Event Listeners ---
+
+    aceitouAvaliacaoCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            naoAceitouAvaliacaoCheckbox.checked = false;
+            removerCampoMotivo();
+        }
+        saveData();
+        gerarTexto();
+    });
+
+    naoAceitouAvaliacaoCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            aceitouAvaliacaoCheckbox.checked = false;
+            criarCampoMotivo();
+        } else {
+            removerCampoMotivo();
+        }
+        saveData();
+        gerarTexto();
+    });
+
+    copiarButton.addEventListener('click', function() {
+        gerarTexto(); // Garante atualização
+        navigator.clipboard.writeText(textoGeradoParagrafo.textContent)
             .then(() => {
                 alert('Script copiado para a área de transferência!');
             })
@@ -149,27 +163,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     limparButton.addEventListener('click', function() {
-        formFieldsToSave.forEach(field => {
-            // Não limpa o atendente responsável
-            const key = field.id || field.name;
-            if (key !== 'atendente_responsavel') {
-                if (field.type === 'checkbox') {
-                    field.checked = false;
-                } else {
-                    field.value = '';
+        if (confirm("Tem certeza que deseja limpar o formulário?")) {
+            formFieldsToSave.forEach(field => {
+                const key = field.id || field.name;
+                if (key !== 'atendente_responsavel') {
+                    if (field.type === 'checkbox') {
+                        field.checked = false;
+                    } else {
+                        field.value = '';
+                    }
+                    localStorage.removeItem(key);
                 }
-                localStorage.removeItem(key);
-            }
-        });
-        removerCampoMotivo();
-        textoGeradoParagrafo.textContent = '';
+            });
+            removerCampoMotivo();
+            textoGeradoParagrafo.textContent = '';
+        }
     });
     
-    // Adiciona listeners para salvar automaticamente
+    // Adiciona listeners para salvar e gerar texto automaticamente
     formFieldsToSave.forEach(field => {
         if (field) {
-            field.addEventListener('input', saveData);
-            field.addEventListener('change', saveData); // Para checkboxes
+            field.addEventListener('input', () => { saveData(); gerarTexto(); });
+            field.addEventListener('change', () => { saveData(); gerarTexto(); });
         }
     });
 

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
     const operadorInput = document.getElementById('operador');
+    const resultadoDiv = document.querySelector('.resultado');
 
     // Agrupa todos os campos que precisam ser gerenciados
     const formFieldsToManage = document.querySelectorAll('.form input, .form textarea, .form select');
@@ -50,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
         pontoAdicionalInput.dispatchEvent(new Event('change'));
         autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
         autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+        
+        if(resultadoDiv) resultadoDiv.classList.remove('hidden');
+
         gerarTexto();
     }
 
@@ -148,25 +152,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     limparButton.addEventListener('click', function() {
-        formFieldsToManage.forEach(field => {
-            // Não limpa o operador NEM campos readonly
-            if (field.id !== 'operador' && !field.readOnly) {
-                if (field.type === 'checkbox') {
-                    field.checked = false;
-                } else if (field.tagName === 'SELECT') {
-                    field.selectedIndex = 0;
-                } else {
-                    field.value = '';
+        if (confirm("Tem certeza que deseja limpar o formulário?")) {
+            formFieldsToManage.forEach(field => {
+                // Não limpa o operador NEM campos readonly
+                if (field.id !== 'operador' && !field.readOnly) {
+                    if (field.type === 'checkbox') {
+                        field.checked = false;
+                    } else if (field.tagName === 'SELECT') {
+                        field.selectedIndex = 0;
+                    } else {
+                        field.value = '';
+                    }
+                    localStorage.removeItem(field.id);
                 }
-                localStorage.removeItem(field.id);
-            }
-        });
-        // Dispara eventos para resetar a UI e o texto
-        agendamentoPeriodoInput.dispatchEvent(new Event('change'));
-        pontoAdicionalInput.dispatchEvent(new Event('change'));
-        autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
-        autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-        gerarTexto();
+            });
+            // Dispara eventos para resetar a UI e o texto
+            agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+            pontoAdicionalInput.dispatchEvent(new Event('change'));
+            autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+            autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+            gerarTexto();
+        }
     });
 
     // Adiciona listeners para salvar e gerar texto em tempo real
@@ -183,10 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- INICIALIZAÇÃO E CORREÇÃO FINAL ---
     
-    // **LINHA ADICIONADA:** Salva os dados uma última vez antes de sair da página.
     window.addEventListener('pagehide', saveData);
 
-    // Carrega os dados salvos assim que a página é aberta
     loadData();
     document.getElementById('solicitacao').value = 'MUDANÇA DE ENDEREÇO';
 });

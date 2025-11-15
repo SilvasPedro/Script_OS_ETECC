@@ -15,20 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Funções de Local Storage ---
 
-    /**
-     * Salva o valor de todos os campos do formulário no localStorage.
-     */
     function saveData() {
         formFieldsToSave.forEach(field => {
-            if (field && field.id) { // Garante que o campo e o ID existam
+            if (field && field.id) {
                 localStorage.setItem(field.id, field.value);
             }
         });
     }
 
-    /**
-     * Carrega os valores salvos do localStorage para os campos do formulário.
-     */
     function loadData() {
         formFieldsToSave.forEach(field => {
             if (field && field.id) {
@@ -38,29 +32,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-        gerarTexto(); // Atualiza o script gerado com os dados carregados
+        gerarTexto();
     }
 
     // --- Funções Principais ---
 
-    /**
-     * Formata o valor do campo para CPF ou CNPJ.
-     * @param {string} valor O valor a ser formatado.
-     * @returns {string} O valor formatado.
-     */
     function formatarCpfCnpj(valor) {
-        valor = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
-        if (valor.length <= 11) { // Formata como CPF
+        valor = valor.replace(/\D/g, '');
+        if (valor.length <= 11) {
             valor = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
-        } else { // Formata como CNPJ
+        } else {
             valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
         }
         return valor;
     }
 
-    /**
-     * Gera o texto final do script com base nos dados do formulário.
-     */
     function gerarTexto() {
         const problema = problemaInput.value;
         const telefone = telefoneInput.value;
@@ -77,14 +63,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Event Listeners ---
 
-    // Formata o CPF/CNPJ enquanto o usuário digita
     cpfCnpjInput.addEventListener('input', function () {
         this.value = formatarCpfCnpj(this.value);
     });
 
-    // Botão para copiar o script gerado
     copiarButton.addEventListener('click', function () {
-        gerarTexto(); // Garante que o texto está atualizado
+        gerarTexto();
         const texto = textoGerado.textContent;
         if (texto.trim() !== '' && texto !== 'Preencha todos os campos.') {
             navigator.clipboard.writeText(texto).then(() => {
@@ -95,19 +79,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Botão para limpar o formulário
     limparButton.addEventListener('click', function () {
-        formFieldsToSave.forEach(field => {
-            // A condição principal: não limpa o campo do operador
-            if (field && field.id !== 'operador') {
-                field.value = '';
-                localStorage.removeItem(field.id);
-            }
-        });
-        gerarTexto(); // Limpa também a área de texto gerado
+        if (confirm("Tem certeza que deseja limpar o formulário?")) {
+            formFieldsToSave.forEach(field => {
+                if (field && field.id !== 'operador') {
+                    field.value = '';
+                    localStorage.removeItem(field.id);
+                }
+            });
+            gerarTexto();
+        }
     });
 
-    // Botão para copiar apenas o CPF/CNPJ
     copiarCpfCnpjButton.addEventListener('click', function () {
         const cpfCnpj = cpfCnpjInput.value;
         if (cpfCnpj) {
@@ -119,25 +102,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Salva e atualiza o script em tempo real a cada alteração nos campos
     formFieldsToSave.forEach(field => {
         if (field) {
             field.addEventListener('input', saveData);
         }
     });
-     // Atualiza o texto gerado em tempo real, separado do save.
+
     formFieldsToSave.forEach(field => {
         if (field) {
             field.addEventListener('input', gerarTexto);
         }
     });
 
-
-    // --- INICIALIZAÇÃO E CORREÇÃO ---
-    
-    // **NOVA LINHA:** Salva os dados uma última vez antes de sair da página.
+    // --- INICIALIZAÇÃO ---
     window.addEventListener('pagehide', saveData);
-
-    // Carrega os dados salvos assim que a página é aberta
     loadData();
 });

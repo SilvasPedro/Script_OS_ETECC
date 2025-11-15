@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const limparButton = document.getElementById('limpar');
     const textoGerado = document.getElementById('texto-gerado');
     const operadorInput = document.getElementById('operador');
+    const resultadoDiv = document.querySelector('.resultado');
 
     // Agrupa todos os campos que precisam ser salvos
     const formFieldsToSave = document.querySelectorAll('.form input, .form textarea, .form select');
@@ -51,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
         cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
         autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
         autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+        
+        if(resultadoDiv) resultadoDiv.classList.remove('hidden');
+        
         gerarTexto();
     }
 
@@ -152,25 +156,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     limparButton.addEventListener('click', function () {
-        formFieldsToSave.forEach(field => {
-            if (field.id !== 'operador') {
-                if (field.type === 'checkbox') {
-                    field.checked = false;
-                } else if (field.tagName === 'SELECT') {
-                    field.selectedIndex = 0;
-                } else {
-                    field.value = '';
+        if (confirm("Tem certeza que deseja limpar o formulário?")) {
+            formFieldsToSave.forEach(field => {
+                if (field.id !== 'operador') {
+                    if (field.type === 'checkbox') {
+                        field.checked = false;
+                    } else if (field.tagName === 'SELECT') {
+                        field.selectedIndex = 0;
+                    } else {
+                        field.value = '';
+                    }
+                    localStorage.removeItem(field.id);
                 }
-                localStorage.removeItem(field.id);
-            }
-        });
-        // Dispara eventos para resetar a UI e o texto
-        agendamentoPeriodoInput.dispatchEvent(new Event('change'));
-        cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
-        cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
-        autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
-        autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
-        gerarTexto();
+            });
+            // Dispara eventos para resetar a UI e o texto
+            agendamentoPeriodoInput.dispatchEvent(new Event('change'));
+            cienteCustoSimCheckbox.dispatchEvent(new Event('change'));
+            cienteCustoNaoCheckbox.dispatchEvent(new Event('change'));
+            autorizadaExcecaoSimCheckbox.dispatchEvent(new Event('change'));
+            autorizadaExcecaoNaoCheckbox.dispatchEvent(new Event('change'));
+            gerarTexto();
+        }
     });
 
     // Adiciona listeners para salvar e gerar texto em tempo real
@@ -187,9 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- INICIALIZAÇÃO E CORREÇÃO ---
     
-    // **NOVA LINHA:** Salva os dados uma última vez antes de sair da página.
     window.addEventListener('pagehide', saveData);
-
-    // Carrega os dados salvos assim que a página é aberta
     loadData();
 });
